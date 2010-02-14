@@ -50,7 +50,7 @@ public class BasicHelper {
         if (o != null) {
             return o.toString();
         }
-        return new String("");
+        return "";
     }
 
 
