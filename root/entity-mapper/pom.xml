@@ -51,6 +51,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>2.5.6.SEC01</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>aopalliance</artifactId>
+                    <groupId>aopalliance</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -65,7 +71,7 @@
             <version>1.0</version>
             <type>jar</type>
         </dependency>
-        
+
         <!-- Unit Testing -->
         <dependency>
             <groupId>junit</groupId>
@@ -73,9 +79,10 @@
             <version>4.4</version>
             <scope>test</scope>
         </dependency>
-        
+
     </dependencies>
 </project>
+
 
 
 
