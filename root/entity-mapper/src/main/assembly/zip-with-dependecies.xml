@@ -9,16 +9,10 @@
     <dependencySets>
 
         <dependencySet>
-            <outputDirectory>/libs</outputDirectory>
+            <outputDirectory>${project.artifactId}/libs</outputDirectory>
             <excludes>
                 <exclude>net.freedom.gj:entity-mapper</exclude>
             </excludes>
-        </dependencySet>
-
-        <dependencySet>
-            <includes>
-                <include>net.freedom.gj:entity-mapper</include>
-            </includes>
         </dependencySet>
     </dependencySets>
 
@@ -27,12 +21,11 @@
     <fileSets>
 
         <fileSet>
-            <directory>${project.build.directory}/target</directory>
+            <directory>${project.build.directory}/</directory>
+            <outputDirectory>${project.artifactId}</outputDirectory>
             <includes>
                 <include>*.jar</include>
-            </includes>
-            
+            </includes>           
         </fileSet>
-
-    </fileSets>
+    </fileSets>    
 </assembly>
