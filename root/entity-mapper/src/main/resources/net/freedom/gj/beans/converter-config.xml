@@ -15,4 +15,7 @@
 
     <bean id="decimalToStringConverter" class="net.freedom.gj.beans.converter.DecimalToStringConverter"/>
 
+    <bean id="toUpperCaseConverter" class="net.freedom.gj.beans.converter.ToUpperCaseConverter"/>
+
+
 </beans>
