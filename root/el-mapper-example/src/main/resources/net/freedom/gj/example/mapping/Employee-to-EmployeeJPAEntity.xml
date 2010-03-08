@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.5.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+
+    <bean id="md" class="net.freedom.gj.beans.mapper.MappingData" abstract="true" />
+
+    <util:list id="__mappingData">
+        <bean parent="md" p:source-expression="id" p:target-expression="pkid"/>
+        <bean parent="md" p:source-expression="userid" p:target-expression="userid.userid"/>
+        <bean parent="md" p:source-expression="loginid" p:target-expression="userid.loginid"/>
+        <bean parent="md" p:source-expression="companyid" p:target-expression="userid.companyid"/>
+        <bean parent="md" p:source-expression="agencyId" p:target-expression="userid.insagencyid"/>
+        <bean parent="md" p:source-expression="lastName" p:target-expression="userid.lastname"/>
+        <bean parent="md" p:source-expression="lastName" p:target-expression="userid.ulastname" p:converter-ref="toUpperCaseConverter"/>
+        <bean parent="md" p:source-expression="firstName" p:target-expression="userid.firstname"/>
+        <bean parent="md" p:source-expression="firstName" p:target-expression="userid.ufirstname" p:converter-ref="toUpperCaseConverter"/>
+        <bean parent="md" p:source-expression="middle" p:target-expression="userid.middlename"/>
+        <bean parent="md" p:source-expression="suffix" p:target-expression="userid.suffixname"/>
+        <bean parent="md" p:source-expression="email" p:target-expression="userid.email"/>
+        <bean parent="md" p:source-expression="status" p:target-expression="userid.status"/>
+        <bean parent="md" p:source-expression="password" p:target-expression="userid.pwd"/>
+        <bean parent="md" p:source-expression="password" p:target-expression="userid.changepwd"/>
+        <bean parent="md" p:source-expression="active" p:target-expression="isactive"  p:converter-ref="booleanTo01Converter"/>        
+        <bean parent="md" p:source-expression="updatedby" p:target-expression="updatedby"/>
+        <bean parent="md" p:source-expression="updateddate" p:target-expression="updateddate"/>
+        <bean parent="md" p:source-expression="updatedby" p:target-expression="userid.updatedby"/>
+        <bean parent="md" p:source-expression="suffix" p:target-expression="userid.suffixname"/>
+        
+
+        <bean parent="md" p:source-expression="address.addressid" p:target-expression="address.addressid"/>
+        <bean parent="md" p:source-expression="address.addressZip" p:target-expression="address.addresszip"/>
+        <bean parent="md" p:source-expression="address.addressState" p:target-expression="address.addressstate"/>
+        <bean parent="md" p:source-expression="address.address1" p:target-expression="address.address1"/>
+        <bean parent="md" p:source-expression="address.address2" p:target-expression="address.address2"/>
+        <bean parent="md" p:source-expression="address.address3" p:target-expression="address.address3"/>
+        <bean parent="md" p:source-expression="address.addressCity" p:target-expression="address.addresscity"/>
+        <bean parent="md" p:source-expression="address.createdBy" p:target-expression="address.createdby"/>
+        <bean parent="md" p:source-expression="address.createdDate" p:target-expression="address.createddate"/>
+        <bean parent="md" p:source-expression="address.updatedBy" p:target-expression="address.updatedby"/>
+        <bean parent="md" p:source-expression="address.updatedDate" p:target-expression="address.updateddate"/>
+
+        <!-- Ability to map collection of objects -->
+        <bean parent="md" p:source-expression="groups" p:target-expression="userid.groups" p:collection="true" p:collection-object-type="net.freedom.gj.example.jpa.GroupEntity">
+            <property name="collectionMappingData">
+                <util:list>
+                    <bean parent="md" p:source-expression="name" p:target-expression="groupName" />
+                </util:list>
+            </property>
+        </bean>
+
+
+
+
+
+    </util:list>
+
+</beans>
