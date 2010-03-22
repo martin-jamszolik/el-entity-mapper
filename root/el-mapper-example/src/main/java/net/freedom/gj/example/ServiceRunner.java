@@ -20,6 +20,7 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import net.freedom.gj.example.pojo.Employee;
 import net.freedom.gj.example.service.EmployeeService;
+import net.freedom.gj.example.ui.EmployeeView;
 import org.springframework.stereotype.Component;
 
 /**
@@ -32,6 +33,9 @@ public class ServiceRunner {
     @Resource
     private EmployeeService service;
 
+    @Resource
+    private EmployeeView ui;
+
     @PostConstruct
     public void runService(){
         Employee emp = Util.generateEmployee();
@@ -39,6 +43,19 @@ public class ServiceRunner {
 
         service.save(emp);
         
+        createUI();
+
+    }
+
+
+    private void createUI(){
+        
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                ui.setVisible(true);
+            }
+        });
+
 
     }
 
