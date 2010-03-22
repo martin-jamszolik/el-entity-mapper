@@ -16,8 +16,10 @@
 
 package net.freedom.gj.example;
 
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.UIManager;
+import net.freedom.gj.example.ui.EmployeeView;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
@@ -27,6 +29,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class Main {
 
     public static void main(String[] args) {
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (Exception ex) {
+            Logger.getLogger(EmployeeView.class.getName()).log(Level.SEVERE, null, ex);
+        }
         System.out.println("Welcome to EL entity mapper demonstration.\n");
 
           AbstractApplicationContext ctx
