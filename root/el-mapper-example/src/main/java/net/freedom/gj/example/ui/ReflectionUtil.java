@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.freedom.gj.example.ui;
 
 import java.lang.reflect.Method;
@@ -37,14 +36,13 @@ public class ReflectionUtil {
 
     }
 
-
-    public static void invokeSetter(Object setterOwner, Method method,Object value) throws Exception {
+    public static void invokeSetter(Object setterOwner, Method method, Object value) throws Exception {
         try {
-            
+
             method.invoke(setterOwner, value);
 
         } catch (Exception e) {
-           e.printStackTrace();
+            e.printStackTrace();
         }
 
     }
@@ -66,7 +64,4 @@ public class ReflectionUtil {
         }
         return getterMethods;
     }
-
-
-
 }

@@ -13,9 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.freedom.gj.example.ui;
-
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -25,28 +23,29 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Martin Jamszolik
  */
-public class ResultTableModel  extends AbstractTableModel {
+public class ResultTableModel extends AbstractTableModel {
 
-    static String[] names = {"property","Result"};
+    static String[] names = {"property", "Result"};
     Object data;
     int rowcount;
-    List<Method> getters;   
+    List<Method> getters;
 
-   public ResultTableModel(){}
+    public ResultTableModel() {
+    }
 
-   public ResultTableModel(Object val ){
-       setData( val );
-   }
+    public ResultTableModel(Object val) {
+        setData(val);
+    }
 
-    public void setData(Object input ){
+    public void setData(Object input) {
         data = input;
-        getters = ReflectionUtil.getGetterMethods(input.getClass());       
-        rowcount =  getters.size();
+        getters = ReflectionUtil.getGetterMethods(input.getClass());
+        rowcount = getters.size();
         fireTableDataChanged();
     }
 
     public int getRowCount() {
-       return rowcount;
+        return rowcount;
     }
 
     public int getColumnCount() {
@@ -68,9 +67,6 @@ public class ResultTableModel  extends AbstractTableModel {
         return Object.class;
     }
 
-
-
-
     public Object getValueAt(int rowIndex, int columnIndex) {
         try {
             switch (columnIndex) {
@@ -87,6 +83,4 @@ public class ResultTableModel  extends AbstractTableModel {
             return null;
         }
     }
-
-
 }
