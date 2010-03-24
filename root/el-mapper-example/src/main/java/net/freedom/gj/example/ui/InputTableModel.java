@@ -13,53 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.freedom.gj.example.ui;
-
 
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JTextArea;
 import javax.swing.table.AbstractTableModel;
 
 /**
  *
  * @author Martin Jamszolik
  */
-public class InputTableModel extends AbstractTableModel{
+public class InputTableModel extends AbstractTableModel {
 
-    static String[] names = {"property","Input"};
+    static String[] names = {"property", "Input"};
     Object data;
     int rowcount;
     List<Method> getters;
-    //List<Method> setters;
 
-    private JTextArea message;
-
-    public void setMessage(JTextArea message) {
-        this.message = message;
+    public InputTableModel() {
     }
 
-    public InputTableModel(){}
-    
-    public InputTableModel(Object input){
-        setData( input );
+    public InputTableModel(Object input) {
+        setData(input);
     }
 
-
-    public void setData(Object input ){
+    public void setData(Object input) {
         data = input;
         getters = ReflectionUtil.getGetterMethods(input.getClass());
-        //setters = ReflectionUtil.getSetterMethods(input.getClass());
-        rowcount =  getters.size();
+        rowcount = getters.size();
         fireTableDataChanged();
     }
 
     public int getRowCount() {
-       return rowcount;
+        return rowcount;
     }
 
     public int getColumnCount() {
@@ -73,16 +62,13 @@ public class InputTableModel extends AbstractTableModel{
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return  columnIndex == 1;
+        return columnIndex == 1;
     }
 
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         return Object.class;
     }
-
-
-
 
     public Object getValueAt(int rowIndex, int columnIndex) {
         try {
@@ -93,58 +79,48 @@ public class InputTableModel extends AbstractTableModel{
                     return ReflectionUtil.invokeGetter(data, getters.get(rowIndex));
                 default:
                     return null;
-
             }
         } catch (Exception ex) {
-            ex.printStackTrace();
+            Logger.getLogger(InputTableModel.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }
 
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-         if( message != null )
-             message.setText("");
         try {
-
-
             Method getter = getters.get(rowIndex);
             Class gPar = getter.getReturnType();
-            Method setter = data.getClass().getMethod( getter.getName().replaceFirst("get", "set")   , gPar);
-            
+            Method setter = data.getClass().getMethod(getter.getName().replaceFirst("get", "set"), gPar);
+
             Class[] par = setter.getParameterTypes();
 
-            if( par[0].isPrimitive() &&  par[0].getName().equals("int") )
-                aValue = Integer.parseInt((String)aValue);
+            if (par[0].isPrimitive() && par[0].getName().equals("int")) {
+                aValue = Integer.parseInt((String) aValue);
+            }
 
-            if(  par[0].equals(Integer.class) )
-                aValue = Integer.parseInt((String)aValue);
+            if (par[0].equals(Integer.class)) {
+                aValue = Integer.parseInt((String) aValue);
+            }
 
-            if(par[0].equals(BigDecimal.class))
-                aValue = new BigDecimal((String)aValue);
-           
+            if (par[0].equals(BigDecimal.class)) {
+                aValue = new BigDecimal((String) aValue);
+            }
+
+            if (par[0].equals(Boolean.class)) {
+                aValue = Boolean.valueOf((String) aValue);
+            }
 
             ReflectionUtil.invokeSetter(data, setter, aValue);
 
-
-
-        }catch(NumberFormatException ex){
-            if( message != null )
-                message.setText("Invalid Format" );
-
-
-        }catch(IllegalArgumentException ex ){
-            if( message != null )
-                message.setText("Invalid Number Format" );
-        }catch (Exception ex) {
+        } catch (NumberFormatException ex) {
             Logger.getLogger(InputTableModel.class.getName()).log(Level.SEVERE, null, ex);
-            if( message != null )
-                message.setText(ex.getMessage() );
+        } catch (IllegalArgumentException ex) {
+            Logger.getLogger(InputTableModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(InputTableModel.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
     }
-
-
-
 }

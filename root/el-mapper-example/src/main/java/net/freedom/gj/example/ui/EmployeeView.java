@@ -19,7 +19,6 @@
  *
  * Created on Mar 21, 2010, 11:13:41 PM
  */
-
 package net.freedom.gj.example.ui;
 
 import javax.annotation.Resource;
@@ -38,17 +37,15 @@ public class EmployeeView extends javax.swing.JFrame {
 
     @Resource
     private EmployeeService service;
-
     Employee employee;
 
     /** Creates new form EmployeeView */
-    public EmployeeView() {        
+    public EmployeeView() {
         initComponents();
-       InputTableModel model = new InputTableModel();
-       employee = Util.generateEmployee();
-        model.setData( employee );
-        table1.setModel( model );
-        table3.setModel( new InputTableModel( employee.getAddress() ) );
+        employee = Util.generateEmployee();
+        
+        table1.setModel(new InputTableModel(employee));
+        table3.setModel(new InputTableModel(employee.getAddress()));
 
 
         table2.setModel(new ResultTableModel());
@@ -83,7 +80,9 @@ public class EmployeeView extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("EL Entity Mapper Demonstration");
 
+        jLabel1.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
         jLabel1.setText("Employee Business Bean:");
 
         table1.setModel(new javax.swing.table.DefaultTableModel(
@@ -119,6 +118,7 @@ public class EmployeeView extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
         jLabel2.setText("Database Entity Bean:");
 
         table3.setModel(new javax.swing.table.DefaultTableModel(
@@ -134,6 +134,7 @@ public class EmployeeView extends javax.swing.JFrame {
         ));
         jScrollPane3.setViewportView(table3);
 
+        jLabel3.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
         jLabel3.setText("Address:");
 
         table4.setModel(new javax.swing.table.DefaultTableModel(
@@ -149,6 +150,7 @@ public class EmployeeView extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(table4);
 
+        jLabel4.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
         jLabel4.setText("User Information:");
 
         table5.setModel(new javax.swing.table.DefaultTableModel(
@@ -164,6 +166,7 @@ public class EmployeeView extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(table5);
 
+        jLabel5.setFont(new java.awt.Font("DejaVu Sans", 1, 13)); // NOI18N
         jLabel5.setText("Address:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -213,7 +216,7 @@ public class EmployeeView extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -230,26 +233,13 @@ public class EmployeeView extends javax.swing.JFrame {
 
     private void mapBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mapBtnActionPerformed
 
-        service.save( employee );
+        service.save(employee);
 
-        table2.setModel(new ResultTableModel(EmployeeDao.entity)  );
-        table4.setModel(new ResultTableModel(EmployeeDao.entity.getUserid()) );
-        table5.setModel(new ResultTableModel(EmployeeDao.entity.getAddress()) );
-
+        table2.setModel(new ResultTableModel(EmployeeDao.entity));
+        table4.setModel(new ResultTableModel(EmployeeDao.entity.getUserid()));
+        table5.setModel(new ResultTableModel(EmployeeDao.entity.getAddress()));
 
     }//GEN-LAST:event_mapBtnActionPerformed
-
-    /**
-    * @param args the command line arguments
-    */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EmployeeView().setVisible(true);
-            }
-        });
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -268,5 +258,4 @@ public class EmployeeView extends javax.swing.JFrame {
     private javax.swing.JTable table4;
     private javax.swing.JTable table5;
     // End of variables declaration//GEN-END:variables
-
 }
