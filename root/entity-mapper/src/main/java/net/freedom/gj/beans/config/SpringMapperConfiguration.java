@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.freedom.gj.beans.config;
 
 import java.util.ArrayList;
@@ -28,7 +27,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import net.freedom.gj.beans.factory.BeanCriteria;
+import net.freedom.gj.beans.factory.CriteriaBuilder;
 import net.freedom.gj.beans.factory.InstanceOfMatcher;
+import net.freedom.gj.beans.factory.PropertyBuilder;
 import net.freedom.gj.beans.factory.PropertyCriteria;
 import net.freedom.gj.beans.factory.PropertyMatcher;
 import net.freedom.gj.beans.mapper.MappingData;
@@ -42,10 +43,11 @@ import net.freedom.gj.beans.mapper.PostProcessor;
  *
  *
  */
+@SuppressWarnings("unchecked")
 public class SpringMapperConfiguration implements MapperConfiguration, BeanCriteria, ApplicationContextAware {
 
     /**
-     * Mappings are defind in this configuration file.
+     * Mappings are defined in this configuration file.
      */
     private String configurationFile;
     /**
@@ -63,6 +65,7 @@ public class SpringMapperConfiguration implements MapperConfiguration, BeanCrite
     /**
      * Additional Criteria to select this bean.
      */
+    MappingInformation mappingInformation;
     private Map<String, PropertyMatcher> additionalCriteria;
     private Map<String, ApplicationContext> cachedContext = new HashMap<String, ApplicationContext>();
 
@@ -70,13 +73,15 @@ public class SpringMapperConfiguration implements MapperConfiguration, BeanCrite
      * This loads mapping information from configuration file and returns them.
      * @return Returns mapping information.
      */
-    @SuppressWarnings("unchecked")
     public MappingInformation getMappingInformation() {
+
+        if (mappingInformation != null) {
+            return mappingInformation;
+        }
+
         ApplicationContext context = getContext(configurationFile);
-
-        MappingInformation mappingInformation = new MappingInformation();
+        mappingInformation = new MappingInformation();
         mappingInformation.setMappingData((List<MappingData>) context.getBean("__mappingData"));
-
         try {
             mappingInformation.setPostProcessors((List<PostProcessor>) context.getBean("__postProcessors"));
         } catch (NoSuchBeanDefinitionException e) {
@@ -86,7 +91,7 @@ public class SpringMapperConfiguration implements MapperConfiguration, BeanCrite
         return mappingInformation;
     }
 
-    public ApplicationContext getContext(String file) {   
+    public ApplicationContext getContext(String file) {
 
         if (cachedContext.containsKey(file)) {
             return cachedContext.get(file);
@@ -102,25 +107,19 @@ public class SpringMapperConfiguration implements MapperConfiguration, BeanCrite
      * @return
      */
     public List<PropertyCriteria> getCriteria() {
-
-        PropertyCriteria criteria = new PropertyCriteria();
         try {
-            criteria.addCriterion("source", new InstanceOfMatcher(Class.forName(sourceType)));
-            criteria.addCriterion("target", new InstanceOfMatcher(Class.forName(targetType)));
-
+            PropertyBuilder pb = new PropertyBuilder()
+                    .build("source", new InstanceOfMatcher(Class.forName(sourceType)))
+                    .build("target", new InstanceOfMatcher(Class.forName(targetType)));
             if (additionalCriteria != null && !additionalCriteria.isEmpty()) {
                 for (String property : additionalCriteria.keySet()) {
-                    criteria.addCriterion(property, additionalCriteria.get(property));
+                    pb.build(property, additionalCriteria.get(property));
                 }
             }
+            return new CriteriaBuilder().build(pb).getCriteria();
         } catch (ClassNotFoundException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
-
-        List<PropertyCriteria> criteriaList = new ArrayList<PropertyCriteria>();
-        criteriaList.add(criteria);
-
-        return criteriaList;
     }
 
     public void setConfigurationFile(String configurationFile) {
