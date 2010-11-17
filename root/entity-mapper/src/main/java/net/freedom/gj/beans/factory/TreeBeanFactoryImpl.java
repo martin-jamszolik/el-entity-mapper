@@ -59,7 +59,11 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 	}
 	
 	public Set<BeanCriteria> getObjects(Object data) {
-		return getObjects(rootNode, data);
+            Set<BeanCriteria> result = getObjects(rootNode, data);
+            if(result == null )
+                return Collections.emptySet();
+
+            return result;
 	}
 	
 	private void addObject(BeanCriteria object){
