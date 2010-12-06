@@ -32,13 +32,12 @@ import javax.el.ELContext;
 import javax.el.ExpressionFactory;
 import javax.el.ValueExpression;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import net.freedom.gj.beans.factory.BeanFactory;
 
 import net.freedom.gj.beans.config.MapperConfiguration;
 import net.freedom.gj.beans.util.BeanMapperELContext;
+import net.freedom.gj.beans.util.Lg;
 
 /**
  * This is default implementation of BeanMapper. 
@@ -58,7 +57,7 @@ public class BeanMapperImpl implements BeanMapper{
 	 */
 	private ExpressionFactory factory = ExpressionFactory.newInstance();
 
-	private static final Log log = LogFactory.getLog(BeanMapperImpl.class);
+	
 
 	public void setBeanFactory(
 			BeanFactory<MapperConfiguration, MapperConfigurationContext> beanFactory) {
@@ -150,7 +149,7 @@ public class BeanMapperImpl implements BeanMapper{
 			factory.createValueExpression(context, "${target." + mappingData.getTargetExpression() + "}", (value == null ? Object.class : value.getClass())).setValue(context, value);
 
 		} catch (Exception e) {
-			log.debug("Bean Mapper Failed to map " + mappingData.getSourceExpression() + " to " + mappingData.getTargetExpression()+" Exception:"+e.getMessage());
+			Lg.log(this,Lg.ERROR,"Bean Mapper Failed to map " + mappingData.getSourceExpression() + " to " + mappingData.getTargetExpression()+" Exception:"+e.getMessage());
 		}
 	}
 
