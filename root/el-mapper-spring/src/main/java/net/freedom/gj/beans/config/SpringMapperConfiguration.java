@@ -15,7 +15,6 @@
  */
 package net.freedom.gj.beans.config;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,13 +36,16 @@ import net.freedom.gj.beans.mapper.MappingInformation;
 import net.freedom.gj.beans.mapper.PostProcessor;
 
 /**
- * This is Spring implementation of MapperConfiguration. The mappings are defined in configurationFile. 
- * The sourceType and targetType information is used to determine when this configuration is applicable. 
- * @author Goutham Gogineni & Martin Jamszolik
+ * This is Spring implementation of MapperConfiguration.
+ * The mappings are defined in configurationFile.
+ * The sourceType and targetType information is used to
+ * determine when this configuration is applicable.
+ * @author Goutham Gogineni
+ * @author Martin Jamszolik
  *
  *
  */
-@SuppressWarnings("unchecked")
+
 public class SpringMapperConfiguration implements MapperConfiguration, BeanCriteria, ApplicationContextAware {
 
     /**
@@ -91,7 +93,7 @@ public class SpringMapperConfiguration implements MapperConfiguration, BeanCrite
         return mappingInformation;
     }
 
-    public ApplicationContext getContext(String file) {
+    private ApplicationContext getContext(String file) {
 
         if (cachedContext.containsKey(file)) {
             return cachedContext.get(file);
@@ -103,7 +105,8 @@ public class SpringMapperConfiguration implements MapperConfiguration, BeanCrite
     }
 
     /**
-     * The criteria is the source object type has to be of sourceType and target object type has to be of type targetType.
+     * The criteria is the source object type has to be of sourceType
+     * and target object type has to be of type targetType.
      * @return
      */
     public List<PropertyCriteria> getCriteria() {
