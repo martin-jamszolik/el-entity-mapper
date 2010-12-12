@@ -50,19 +50,34 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
-            <version>2.5.6.SEC01</version>
+            <version>3.0.5.RELEASE</version>
             <exclusions>
                 <exclusion>
                     <artifactId>aopalliance</artifactId>
                     <groupId>aopalliance</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>spring-aop</artifactId>
+                    <groupId>org.springframework</groupId>
+                </exclusion>               
+                
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
-            <version>2.5.6.SEC01</version>
+            <version>3.0.5.RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -72,14 +87,53 @@
             <type>jar</type>
         </dependency>
 
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.1</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>1.6.1</version>
+            <scope>runtime</scope>
+            <type>jar</type>
+        </dependency>
+        <!--dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>0.9.26</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>0.9.26</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency-->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.1</version>
+             <scope>runtime</scope>
+        </dependency>
+    
+
+
+
+
         <!-- Unit Testing -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.4</version>
+            <version>4.8.2</version>
             <scope>test</scope>
         </dependency>
-
+        
     </dependencies>
 </project>
 
