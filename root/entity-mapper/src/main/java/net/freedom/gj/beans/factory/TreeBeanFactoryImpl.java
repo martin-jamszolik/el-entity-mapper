@@ -36,9 +36,12 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 	private BeanTreeNode rootNode = null;
 	private String objectType = null;
 	
-	@SuppressWarnings("unchecked")
+	
 	public void init() throws BeansException, ClassNotFoundException{
-		Map<String, BeanCriteria> objects = BeanFactoryUtils.beansOfTypeIncludingAncestors((ListableBeanFactory)beanFactory, Class.forName(objectType));
+        Class type = Class.forName(objectType);
+		Map<String, BeanCriteria> objects = BeanFactoryUtils.beansOfTypeIncludingAncestors(
+                (ListableBeanFactory)beanFactory, type );
+
 		for(String key : objects.keySet()){
 			addObject(objects.get(key));
 		}
@@ -47,7 +50,7 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 	public BeanCriteria getObject(Object data) {
 		Set<BeanCriteria> objects = getObjects(data);
 		
-		if(objects == null || objects.size() == 0){
+		if(objects == null || objects.isEmpty()){
 			return null;
 		}
 		

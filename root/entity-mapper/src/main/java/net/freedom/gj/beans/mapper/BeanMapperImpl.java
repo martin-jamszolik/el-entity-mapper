@@ -75,7 +75,7 @@ public class BeanMapperImpl implements BeanMapper{
 		Set<MapperConfiguration> configurations = beanFactory.getObjects(context);
 
 		// If there are no MapperConfiguration's return the target.
-		if(configurations == null || configurations.size() == 0){
+		if(configurations == null || configurations.isEmpty()){
 			return context.getTarget();
 		}
 
