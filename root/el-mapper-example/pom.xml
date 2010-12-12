@@ -12,14 +12,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.1</version>
                 <configuration>
                     <archive>
                         <manifest>
@@ -55,7 +58,7 @@
         </dependency>
         <dependency>
             <groupId>net.freedom.gj</groupId>
-            <artifactId>entity-mapper</artifactId>
+            <artifactId>el-mapper-spring</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -63,31 +66,6 @@
             <artifactId>persistence-api</artifactId>
             <version>1.0</version>
             <type>jar</type>
-        </dependency>
-
-        <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.15</version>
-            <scope>runtime</scope>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jms</artifactId>
-                    <groupId>javax.jms</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jmxri</artifactId>
-                    <groupId>com.sun.jmx</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>jmxtools</artifactId>
-                    <groupId>com.sun.jdmk</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>mail</artifactId>
-                    <groupId>javax.mail</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
