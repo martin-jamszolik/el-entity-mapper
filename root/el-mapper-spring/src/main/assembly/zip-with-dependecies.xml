@@ -11,7 +11,7 @@
         <dependencySet>
             <outputDirectory>${project.artifactId}/libs</outputDirectory>
             <excludes>
-                <exclude>net.freedom.gj:entity-mapper</exclude>
+                <exclude>net.freedom.gj:el-mapper-spring</exclude>
             </excludes>
         </dependencySet>
     </dependencySets>
