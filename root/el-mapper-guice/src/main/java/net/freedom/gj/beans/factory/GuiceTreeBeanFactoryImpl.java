@@ -18,37 +18,41 @@
 
 package net.freedom.gj.beans.factory;
 
+import com.google.inject.Binding;
+import com.google.inject.Injector;
+import com.google.inject.TypeLiteral;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.BeanFactoryUtils;
-import org.springframework.beans.factory.ListableBeanFactory;
+import net.freedom.gj.beans.config.MapperConfiguration;
+import net.freedom.gj.beans.mapper.MapperConfigurationContext;
 
 
-public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, BeanFactoryAware{
-	private org.springframework.beans.factory.BeanFactory beanFactory = null;
+
+/**
+ * @author Martin Jamszolik
+ */
+public class GuiceTreeBeanFactoryImpl implements BeanFactory<MapperConfiguration, MapperConfigurationContext>{
+	private Injector injector;
+    private String objectType = null;
+    
+    
 	private BeanTreeNode rootNode = null;
-	private String objectType = null;
 	
 	
-	public void init() throws BeansException, ClassNotFoundException{
+	
+	public void init() throws Exception{
         Class type = Class.forName(objectType);
-		Map<String, BeanCriteria> objects = BeanFactoryUtils.beansOfTypeIncludingAncestors(
-                (ListableBeanFactory)beanFactory, type );
-
-		for(String key : objects.keySet()){
-			addObject(objects.get(key));
-		}
+        List<Binding<BeanCriteria>> result = injector.findBindingsByType( TypeLiteral.get(type) );
+        for( Binding<BeanCriteria> b : result){
+          addObject( b.getProvider().get() );            
+        }
 	}
 	
-	public BeanCriteria getObject(Object data) {
-		Set<BeanCriteria> objects = getObjects(data);
+	public MapperConfiguration getObject(MapperConfigurationContext data) {
+		Set<MapperConfiguration> objects = getObjects(data);
 		
 		if(objects == null || objects.isEmpty()){
 			return null;
@@ -61,8 +65,8 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 		return objects.iterator().next();
 	}
 	
-	public Set<BeanCriteria> getObjects(Object data) {
-            Set<BeanCriteria> result = getObjects(rootNode, data);
+	public Set<MapperConfiguration> getObjects(MapperConfigurationContext data) {
+            Set<MapperConfiguration> result = getObjects(rootNode, data);
             if(result == null )
                 return Collections.emptySet();
 
@@ -93,8 +97,8 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 		addObject(matchedChild, criteria, object);
 	}
 	
-	private BeanTreeNode getMatchedChild(BeanTreeNode<BeanCriteria> parent, PropertyCriterion criterion){
-		BeanTreeNode<BeanCriteria> matchedChild = null;
+	private BeanTreeNode<MapperConfiguration> getMatchedChild(BeanTreeNode<MapperConfiguration> parent, PropertyCriterion criterion){
+		BeanTreeNode<MapperConfiguration> matchedChild = null;
 		if(parent.hasChildren()){
 			for(BeanTreeNode child : parent.getChildren()){
 				if(child.getCriterion().equals(criterion)){
@@ -104,7 +108,7 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 			}
 		}
 		if(matchedChild == null){
-			matchedChild = new BeanTreeNode<BeanCriteria>();
+			matchedChild = new BeanTreeNode<MapperConfiguration>();
 			matchedChild.setCriterion(criterion);
 			parent.addChildNode(matchedChild);
 		}
@@ -112,7 +116,7 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 		return matchedChild;
 	}
 	
-	private Set<BeanCriteria> getObjects(BeanTreeNode<BeanCriteria> node, Object data){
+	private Set<MapperConfiguration> getObjects(BeanTreeNode<MapperConfiguration> node, Object data){
 		if(node == null){
 			return null;
 		}
@@ -121,11 +125,11 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 			return node.getObjects();
 		}
 		
-		Set<BeanCriteria> objects = new HashSet<BeanCriteria>();
+		Set<MapperConfiguration> objects = new HashSet<MapperConfiguration>();
 		if(node.getObjects() != null){
 			objects.addAll(node.getObjects());
 		}
-		Set<BeanCriteria> temp = null;
+		Set<MapperConfiguration> temp = null;
 		for(BeanTreeNode child : node.getChildren()){
 			if(child.getCriterion().matchesCriterion(data)){
 				temp = getObjects(child, data);
@@ -138,13 +142,15 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 		return objects;
 	} 
 	
-	
-	public void setBeanFactory(org.springframework.beans.factory.BeanFactory beanFactory) throws BeansException {
-		this.beanFactory = beanFactory;
-	}
 
 	public void setObjectType(String objectType) {
 		this.objectType = objectType;
 	}
+
+    public void setInjector(Injector injector) {
+        this.injector = injector;
+    }
+    
+    
 
 }
