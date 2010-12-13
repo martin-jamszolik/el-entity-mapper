@@ -22,9 +22,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class BeanTreeNode {
+public class BeanTreeNode<T> {
 	private PropertyCriterion criterion;
-	private Set<BeanCriteria> objects;
+	private Set<T> objects;
 	private List<BeanTreeNode> children;
 	
 	public boolean hasChildren(){
@@ -35,9 +35,9 @@ public class BeanTreeNode {
 		return objects != null && objects.size() > 0;
 	}
 	
-	public void addObject(BeanCriteria object){
+	public void addObject(T object){
 		if(getObjects() == null){
-			setObjects(new HashSet<BeanCriteria>());
+			setObjects(new HashSet<T>());
 		}
 		getObjects().add(object);
 	}
@@ -65,11 +65,11 @@ public class BeanTreeNode {
 		this.criterion = criterion;
 	}
 
-	public Set<BeanCriteria> getObjects() {
+	public Set<T> getObjects() {
 		return objects;
 	}
 
-	public void setObjects(Set<BeanCriteria> objects) {
+	public void setObjects(Set<T> objects) {
 		this.objects = objects;
 	}
 
