@@ -34,13 +34,10 @@ import org.junit.runner.RunWith;
 @RunWith(JUniceRunner.class)
 @GuiceModules(modules={FactoryModule.class,MapperConfigurationModule.class})
 public class MappingTest{
-
-    
+   
     
     @Inject
-    BeanMapper mapper;
-    
-    
+    BeanMapper mapper;  
 
     @Test
     public void mappingOnMapObject(){
@@ -48,6 +45,7 @@ public class MappingTest{
         EntityBeanA b1 = new EntityBeanA();
         b1.setMyDate(new Date());
         b1.setName("Testing Name Property");
+
         EntityBeanB b2 = new EntityBeanB();
         
         mapper.map(b1, b2);
@@ -56,21 +54,5 @@ public class MappingTest{
         assertEquals(b1.getName(), b2.getExtension().get("myName") );
         
     }
-
-
-//    private BeanMapper configureBeanMapper(){
-//        SimpleFileMapperConfiguration fileConfig = new SimpleFileMapperConfiguration();
-//        fileConfig.setConfigurationFile("/net/freedom/gj/beans/beanA-to-beanB.txt");
-//        fileConfig.setSourceType("net.freedom.gj.beans.EntityBeanA");
-//        fileConfig.setTargetType("net.freedom.gj.beans.EntityBeanB");
-//
-//        MapperConfigurationBeanFactory factory = new MapperConfigurationBeanFactory();
-//        factory.add(fileConfig);
-//
-//        BeanMapperImpl beanMapper = new BeanMapperImpl();
-//        beanMapper.setBeanFactory(factory);
-//
-//        return beanMapper;
-//    }
 
 }
