@@ -40,7 +40,7 @@ public class EmployeeService {
      * @param emp
      */
     public void save(Employee emp){
-       EmployeeEntity entity =  (EmployeeEntity)mapper.map(emp, new EmployeeEntity() );
+       EmployeeEntity entity =  mapper.map(emp, new EmployeeEntity() );
        persist( entity );        
     }
 

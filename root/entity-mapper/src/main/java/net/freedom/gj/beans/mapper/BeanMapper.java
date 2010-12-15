@@ -29,7 +29,7 @@ public interface BeanMapper {
      * @param target Target object.
      * @return Returns target object.
      */
-    public Object map(Object source, Object target);
+    public <T> T map(Object source, T target);
 
-    public Object map(MapperConfigurationContext context);
+    public <T> T map(MapperConfigurationContext context);
 }
