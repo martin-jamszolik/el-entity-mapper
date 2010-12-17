@@ -16,7 +16,9 @@
 
 package net.freedom.gj.beans;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import net.freedom.gj.beans.config.SimpleFileMapperConfiguration;
 import net.freedom.gj.beans.factory.MapperConfigurationBeanFactory;
 import net.freedom.gj.beans.mapper.BeanMapper;
@@ -40,6 +42,11 @@ public class MappingTest{
         EntityBeanA b1 = new EntityBeanA();
         b1.setMyDate(new Date());
         b1.setName("Testing Name Property");
+        List<Group> groups = new ArrayList<Group>();
+        groups.add(new Group("EMPLOYEE"));
+        groups.add(new Group("EMPADMIN"));
+        b1.setGroups(groups);
+
         EntityBeanB b2 = new EntityBeanB();
         
         BeanMapper mapper = configureBeanMapper();
@@ -48,6 +55,9 @@ public class MappingTest{
 
         assertEquals(b1.getMyDate().toString(), (String)b2.getExtension().get("myDate") );
         assertEquals(b1.getName(), b2.getExtension().get("myName") );
+
+        assertNotNull(b2.getEntityGroups());
+        assertEquals(b2.getEntityGroups().size(), b1.getGroups().size() );
         
     }
 

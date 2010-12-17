@@ -16,28 +16,21 @@
 
 package net.freedom.gj.beans;
 
-import java.util.Date;
-import java.util.List;
-
 /**
  *
  * @author Martin Jamszolik
  */
-public class EntityBeanA {
+public class Group {
 
-
-    private Date myDate;
     private String name;
 
-    private List<Group> groups;
-
-    public Date getMyDate() {
-        return myDate;
+    public Group(String name) {
+        this.name = name;
     }
 
-    public void setMyDate(Date myDate) {
-        this.myDate = myDate;
+    public Group() {
     }
+    
 
     public String getName() {
         return name;
@@ -47,15 +40,10 @@ public class EntityBeanA {
         this.name = name;
     }
 
-    public List<Group> getGroups() {
-        return groups;
+    @Override
+    public String toString(){
+        return name;
     }
 
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
-    }
-
-   
-    
 
 }
