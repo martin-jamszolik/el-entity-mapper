@@ -276,7 +276,7 @@ public class BeanMapperImpl implements BeanMapper {
         return value == null ? 0 : ((value instanceof Collection) ? ((Collection) value).size() : ((Object[]) value).length);
     }
 
-    public Object map(Object source, Object target) {
+    public <T> T map(Object source, T target) {
         return map(new MapConfigurationContext("source", source, "target", target));
     }
 }

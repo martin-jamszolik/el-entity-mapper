@@ -46,11 +46,16 @@ public class SimpleFileMapperConfiguration implements MapperConfiguration {
             InputStream stream =this.getClass().getResourceAsStream(configurationFile);
             BufferedReader reader = new BufferedReader(new InputStreamReader( stream ));
 
-            String line = "";
-            // start of mapping
+            String line = "";            
             List<MappingData> list = new ArrayList<MappingData>();
-            while( (line = reader.readLine()) != null &&  !line.contains("section>") ) {
-                list.add(getMappingData(line));                
+            while( (line = reader.readLine()) != null  ) {
+                if( line.length() == 0 )
+                    continue;
+                
+                if( line.contains("<collection") ){
+                    handleCollection(reader,line,list);
+                }else
+                    list.add(getMappingData(line));
             }
             mappingInformation.setMappingData(list);
 
@@ -62,6 +67,22 @@ public class SimpleFileMapperConfiguration implements MapperConfiguration {
 
         return mappingInformation;
     }
+
+    private void handleCollection(BufferedReader reader,String line, List<MappingData>list ) throws Exception{
+        MappingData data = new MappingData();
+        data.setCollection(true);
+        data.setCollectionObjectType(resolveKey("type=\"","\"",line));
+        data.setSourceExpression(resolveKey("source=\"", "\"", line));
+        data.setTargetExpression(resolveKey("target=\"", "\"", line));
+         List<MappingData> coll = new ArrayList<MappingData>();
+         while( (line = reader.readLine()) != null && !line.contains("</collection>") ) {
+            coll.add(getMappingData(line));
+         }
+         data.setCollectionMappingData(coll);
+
+         list.add(data);
+    }
+
 
     private MappingData getMappingData(String conf) throws Exception {
         MappingData data = new MappingData();
