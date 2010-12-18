@@ -15,6 +15,12 @@
  */
 package net.freedom.gj.beans.config;
 
+import net.freedom.gj.beans.factory.CriteriaBuilder;
+import net.freedom.gj.beans.factory.InstanceOfMatcher;
+import net.freedom.gj.beans.factory.PropertyBuilder;
+import net.freedom.gj.beans.factory.BeanCriteria;
+import net.freedom.gj.beans.factory.PropertyCriteria;
+import net.freedom.gj.beans.mapper.PostProcessor;
 import java.util.HashMap;
 import java.util.Map;
 import java.io.BufferedReader;
@@ -32,7 +38,7 @@ import static net.freedom.gj.beans.util.BasicHelper.resolveKey;
  *
  * @author Martin Jamszolik
  */
-public class SimpleFileMapperConfiguration implements MapperConfiguration {
+public class SimpleFileMapperConfiguration implements MapperConfiguration,BeanCriteria {
 
     private String configurationFile;
     private MappingInformation mappingInformation;
@@ -58,6 +64,8 @@ public class SimpleFileMapperConfiguration implements MapperConfiguration {
                 
                 if( line.contains("<collection") ){
                     handleCollection(reader,line,list);
+                }else if( line.contains("<post-processors")){
+                    handlePostProcessors(reader, line, mappingInformation);
                 }else
                     list.add(getMappingData(line));
             }
@@ -83,6 +91,15 @@ public class SimpleFileMapperConfiguration implements MapperConfiguration {
          }
          data.setCollectionMappingData(coll);
          list.add(data);
+    }
+
+    private void handlePostProcessors(BufferedReader reader,String line,MappingInformation info ) throws Exception{        
+         List<PostProcessor> coll = new ArrayList<PostProcessor>();
+         while( (line = reader.readLine()) != null && !line.contains("</post-processors>") ) {
+            String processClass = resolveKey("process=\"","\"",line);
+            coll.add((PostProcessor)(Class.forName(processClass)).newInstance() );
+         }
+         info.setPostProcessors(coll);
     }
 
 
@@ -129,5 +146,16 @@ public class SimpleFileMapperConfiguration implements MapperConfiguration {
 
     public void setTargetType(String targetType) {
         this.targetType = targetType;
-    }   
+    }
+
+    public List<PropertyCriteria> getCriteria() {
+        try {   
+            return new CriteriaBuilder().build(new PropertyBuilder()
+                    .build("source", new InstanceOfMatcher(Class.forName(sourceType)))
+                    .build("target", new InstanceOfMatcher(Class.forName(targetType)))).getCriteria();
+
+        } catch (ClassNotFoundException e) {
+            throw new IllegalArgumentException(e.getMessage(),e.getCause());
+        }
+    }
 }

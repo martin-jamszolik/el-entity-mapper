@@ -16,32 +16,17 @@
 
 package net.freedom.gj.beans;
 
-import java.util.Map;
+import net.freedom.gj.beans.mapper.PostProcessor;
+import net.freedom.gj.beans.util.Lg;
 
 /**
  *
- * @author martin
+ * @author Martin Jamszolik
  */
-public class EntityBeanB {
+public class ReportResultPostProcessor implements PostProcessor{
 
-    Map extension;
-    private AddressEntity myAddress;
-
-    public Map getExtension() {
-        return extension;
+    public void process(Object source, Object target) {
+        Lg.log(Lg.INFO,"object A: {0} was mapped to object B:{1}",source,target);
     }
-
-    public void setExtension(Map extension) {
-        this.extension = extension;
-    }
-
-    public AddressEntity getMyAddress() {
-        return myAddress;
-    }
-
-    public void setMyAddress(AddressEntity myAddress) {
-        this.myAddress = myAddress;
-    }
-
 
 }

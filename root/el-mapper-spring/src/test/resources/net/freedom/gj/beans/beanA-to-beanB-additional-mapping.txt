@@ -4,6 +4,3 @@ source="address.line3" target="myAddress.address3"
 source="address.city" target="myAddress.addresscity"
 source="address.state" target="myAddress.addressstate"
 source="address.zip" target="myAddress.addresszip"
-<post-processors>
-    process="net.freedom.gj.beans.ReportResultPostProcessor"
-</post-processors>

@@ -28,6 +28,7 @@ public class EntityBeanA {
 
     private Date myDate;
     private String name;
+    private Address address;
 
     public Date getMyDate() {
         return myDate;
@@ -43,6 +44,14 @@ public class EntityBeanA {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     

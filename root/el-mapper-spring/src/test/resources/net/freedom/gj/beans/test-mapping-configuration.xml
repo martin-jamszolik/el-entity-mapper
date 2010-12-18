@@ -22,6 +22,11 @@
             p:configurationFile="net/freedom/gj/beans/beanA-to-beanB.xml"
             p:sourceType="net.freedom.gj.beans.EntityBeanA"
             p:targetType="net.freedom.gj.beans.EntityBeanB" />
+
+   <bean class="net.freedom.gj.beans.config.SimpleFileMapperConfiguration"
+            p:configurationFile="/net/freedom/gj/beans/beanA-to-beanB-additional-mapping.txt"
+            p:sourceType="net.freedom.gj.beans.EntityBeanA"
+            p:targetType="net.freedom.gj.beans.EntityBeanB" />
 	    
 
 </beans>
