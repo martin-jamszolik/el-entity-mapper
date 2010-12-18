@@ -15,6 +15,8 @@
  */
 package net.freedom.gj.beans.config;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -24,6 +26,7 @@ import net.freedom.gj.beans.converter.Converter;
 import net.freedom.gj.beans.mapper.MappingData;
 import net.freedom.gj.beans.mapper.MappingInformation;
 import net.freedom.gj.beans.util.Lg;
+import static net.freedom.gj.beans.util.BasicHelper.resolveKey;
 
 /**
  *
@@ -35,6 +38,7 @@ public class SimpleFileMapperConfiguration implements MapperConfiguration {
     private MappingInformation mappingInformation;
     private String sourceType;
     private String targetType;
+    private Map<String,Converter> converters = new HashMap<String,Converter>(4);
 
     public MappingInformation getMappingInformation() {
         try {
@@ -58,7 +62,6 @@ public class SimpleFileMapperConfiguration implements MapperConfiguration {
                     list.add(getMappingData(line));
             }
             mappingInformation.setMappingData(list);
-
             reader.close();
 
         } catch (Exception ex) {
@@ -79,7 +82,6 @@ public class SimpleFileMapperConfiguration implements MapperConfiguration {
             coll.add(getMappingData(line));
          }
          data.setCollectionMappingData(coll);
-
          list.add(data);
     }
 
@@ -89,13 +91,20 @@ public class SimpleFileMapperConfiguration implements MapperConfiguration {
         data.setSourceExpression(resolveKey("source=\"", "\"", conf));
         data.setTargetExpression(resolveKey("target=\"", "\"", conf));
         String converter = resolveKey("converter=\"", "\"", conf);
-        if (converter != null) {
-            //TODO: These can be singletons, stop creating instances per line item.
-            Converter instance = (Converter) (Class.forName(converter)).newInstance();
+        if (converter != null) {            
+            Converter instance = getConverter(converter);
             data.setConverter(instance);
         }
-
         return data;
+    }
+
+    private Converter getConverter(String className ) throws Exception{
+
+        if( converters.containsKey(className) )
+            return converters.get(className);
+
+        converters.put(className, (Converter)(Class.forName(className)).newInstance()  );
+        return converters.get(className);
     }
 
     public String getConfigurationFile() {
@@ -120,23 +129,5 @@ public class SimpleFileMapperConfiguration implements MapperConfiguration {
 
     public void setTargetType(String targetType) {
         this.targetType = targetType;
-    }
-
-    /**
-     *
-     * @param key - indicator to where your value is stored
-     * @param delimiter - indicator to where you stop extracting the value
-     * @param ctx - body that contains the value you like to extract.
-     * @return
-     */
-    public static String resolveKey(String key, String delimiter, String ctx) {
-
-        if (ctx.contains(key)) {
-            int ind = ctx.indexOf(key);
-            String ans = ctx.substring(ind + key.length());
-            ans = ans.substring(0, (ans.indexOf(delimiter) == -1 ? ans.length() : ans.indexOf(delimiter)));
-            return ans;
-        }
-        return null;
-    }
+    }   
 }

@@ -16,6 +16,7 @@
 
 package net.freedom.gj.beans;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,25 +40,32 @@ public class MappingTest{
     @Test
     public void mappingOnMapObject(){
 
+        // Populate object with some data
         EntityBeanA b1 = new EntityBeanA();
         b1.setMyDate(new Date());
         b1.setName("Testing Name Property");
         List<Group> groups = new ArrayList<Group>();
-        groups.add(new Group("EMPLOYEE"));
-        groups.add(new Group("EMPADMIN"));
+        groups.add(new Group("EMPLOYEE",21));
+        groups.add(new Group("EMPADMIN",1));
         b1.setGroups(groups);
+        b1.setValue(new BigDecimal("1000"));
+        b1.setAddress(new Address("123 Main st","","","Sarasota","FL","0000"));
 
-        EntityBeanB b2 = new EntityBeanB();
-        
+
+        // get an instance of bean mapper
         BeanMapper mapper = configureBeanMapper();
 
-        mapper.map(b1, b2);
+        // map object A to another object B
+        EntityBeanB b2 = mapper.map(b1, new EntityBeanB());
 
+        // Assert for correctness
         assertEquals(b1.getMyDate().toString(), (String)b2.getExtension().get("myDate") );
         assertEquals(b1.getName(), b2.getExtension().get("myName") );
-
         assertNotNull(b2.getEntityGroups());
         assertEquals(b2.getEntityGroups().size(), b1.getGroups().size() );
+        assertEquals( b2.getExtension().get("myMoney"), b1.getValue());
+        assertNotNull(b2.getMyAddress());
+        assertEquals(b2.getMyAddress().getAddress1(), b1.getAddress().getLine1() );
         
     }
 
@@ -68,8 +76,16 @@ public class MappingTest{
         fileConfig.setSourceType("net.freedom.gj.beans.EntityBeanA");
         fileConfig.setTargetType("net.freedom.gj.beans.EntityBeanB");
 
+        //You can use multiple configuration files to map single complex object.
+        SimpleFileMapperConfiguration additionalConfig = new SimpleFileMapperConfiguration();
+        additionalConfig.setConfigurationFile("/net/freedom/gj/beans/beanA-to-beanB-additional-mapping.txt");
+        additionalConfig.setSourceType("net.freedom.gj.beans.EntityBeanA");
+        additionalConfig.setTargetType("net.freedom.gj.beans.EntityBeanB");
+
+
         MapperConfigurationBeanFactory factory = new MapperConfigurationBeanFactory();
         factory.add(fileConfig);
+        factory.add(additionalConfig);
 
         BeanMapperImpl beanMapper = new BeanMapperImpl();
         beanMapper.setBeanFactory(factory);

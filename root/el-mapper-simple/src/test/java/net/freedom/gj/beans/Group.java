@@ -23,6 +23,7 @@ package net.freedom.gj.beans;
 public class Group {
 
     private String name;
+    private Integer rank;
 
     public Group(String name) {
         this.name = name;
@@ -30,6 +31,13 @@ public class Group {
 
     public Group() {
     }
+
+    public Group(String name, Integer rank) {
+        this.name = name;
+        this.rank = rank;
+    }
+
+    
     
 
     public String getName() {
@@ -45,5 +53,15 @@ public class Group {
         return name;
     }
 
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
+    }
+
+
+    
 
 }

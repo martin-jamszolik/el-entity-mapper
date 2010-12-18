@@ -21,13 +21,14 @@ import java.util.Map;
 
 /**
  *
- * @author martin
+ * @author Martin Jamszolik
  */
 public class EntityBeanB {
 
     Map extension;
 
     private List<Group> entityGroups;
+    private AddressEntity myAddress;
 
     public Map getExtension() {
         return extension;
@@ -43,6 +44,14 @@ public class EntityBeanB {
 
     public void setEntityGroups(List<Group> entityGroups) {
         this.entityGroups = entityGroups;
+    }
+
+    public AddressEntity getMyAddress() {
+        return myAddress;
+    }
+
+    public void setMyAddress(AddressEntity myAddress) {
+        this.myAddress = myAddress;
     }
 
     
