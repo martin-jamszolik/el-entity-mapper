@@ -45,7 +45,8 @@ public class MappingTest{
 
         EntityBeanA b1 = new EntityBeanA();
         b1.setMyDate(new Date());
-        b1.setName("Martin Jamszolik");
+        b1.setName("Testing property");
+        b1.setAddress(new Address("123 Main st","","","Sarasota","FL","0000"));
 
         EntityBeanB b2 = new EntityBeanB();
 
@@ -53,7 +54,8 @@ public class MappingTest{
 
         Assert.assertEquals(b1.getMyDate().toString(), (String)b2.getExtension().get("myDate") );
         Assert.assertEquals(b1.getName(), b2.getExtension().get("myName") );
-        
+        Assert.assertNotNull(b2.getMyAddress());
+        Assert.assertEquals(b2.getMyAddress().getAddress1(), b1.getAddress().getLine1() );
     }
 
 }
