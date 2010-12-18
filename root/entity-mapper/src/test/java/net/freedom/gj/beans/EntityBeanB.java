@@ -16,6 +16,7 @@
 
 package net.freedom.gj.beans;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,6 +27,9 @@ public class EntityBeanB {
 
     Map extension;
 
+    private List<Group> entityGroups;
+    private AddressEntity myAddress;
+
     public Map getExtension() {
         return extension;
     }
@@ -33,6 +37,23 @@ public class EntityBeanB {
     public void setExtension(Map extension) {
         this.extension = extension;
     }
+
+    public List<Group> getEntityGroups() {
+        return entityGroups;
+    }
+
+    public void setEntityGroups(List<Group> entityGroups) {
+        this.entityGroups = entityGroups;
+    }
+
+    public AddressEntity getMyAddress() {
+        return myAddress;
+    }
+
+    public void setMyAddress(AddressEntity myAddress) {
+        this.myAddress = myAddress;
+    }
+
 
 
 }

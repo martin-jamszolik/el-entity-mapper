@@ -30,10 +30,7 @@ public class EntityBeanA {
     private Date myDate;
     private String name;
     private BigDecimal value;
-    private Address address;
-
-    private List<Group> groups;
-
+    
     public Date getMyDate() {
         return myDate;
     }
@@ -49,31 +46,6 @@ public class EntityBeanA {
     public void setName(String name) {
         this.name = name;
     }
-
-    public List<Group> getGroups() {
-        return groups;
-    }
-
-    public void setGroups(List<Group> groups) {
-        this.groups = groups;
-    }
-
-    public BigDecimal getValue() {
-        return value;
-    }
-
-    public void setValue(BigDecimal value) {
-        this.value = value;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
     
 
 }
