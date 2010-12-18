@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.freedom.gj.beans.util;
 
 /**
@@ -22,8 +21,6 @@ package net.freedom.gj.beans.util;
  */
 public class BasicHelper {
 
-
-    
     public static boolean isSet(Object obj) {
         return obj == null ? false : (obj.toString().length() > 0);
     }
@@ -40,8 +37,7 @@ public class BasicHelper {
 
     }
 
-
-     /**
+    /**
      * Check for null, and then convert any Object to a string
      * @param o
      * @return String representation of Object, or empty String
@@ -53,5 +49,24 @@ public class BasicHelper {
         return "";
     }
 
+    /**
+     * Helps extract values from String object like xml streams etc.
+     * Utility method that could save you from using xml parser framework.
+     *
+     *
+     * @param key - indicator to where your value is stored
+     * @param delimiter - indicator to where you stop extracting the value
+     * @param ctx - body that contains the value you like to extract.
+     * @return
+     */
+    public static String resolveKey(String key, String delimiter, String ctx) {
 
+        if (ctx.contains(key)) {
+            int ind = ctx.indexOf(key);
+            String ans = ctx.substring(ind + key.length());
+            ans = ans.substring(0, (ans.indexOf(delimiter) == -1 ? ans.length() : ans.indexOf(delimiter)));
+            return ans;
+        }
+        return null;
+    }
 }

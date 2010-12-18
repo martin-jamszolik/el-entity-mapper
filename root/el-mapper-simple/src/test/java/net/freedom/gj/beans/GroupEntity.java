@@ -12,6 +12,17 @@ package net.freedom.gj.beans;
 public class GroupEntity {
 
     private String groupName;
+    private Integer rank;
+
+    public GroupEntity(String groupName, Integer rank) {
+        this.groupName = groupName;
+        this.rank = rank;
+    }
+
+    public GroupEntity() {
+    }
+
+    
 
     public String getGroupName() {
         return groupName;
@@ -25,5 +36,15 @@ public class GroupEntity {
     public String toString(){
         return groupName;
     }
+
+    public Integer getRank() {
+        return rank;
+    }
+
+    public void setRank(Integer rank) {
+        this.rank = rank;
+    }
+
+    
 
 }
