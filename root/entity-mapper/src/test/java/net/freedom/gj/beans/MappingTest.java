@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import net.freedom.gj.beans.config.SimpleFileMapperConfiguration;
+import net.freedom.gj.beans.config.SimpleXmlMapperConfiguration;
 import net.freedom.gj.beans.factory.MapperConfigurationBeanFactory;
 import net.freedom.gj.beans.mapper.BeanMapper;
 import net.freedom.gj.beans.mapper.BeanMapperImpl;
@@ -71,18 +72,20 @@ public class MappingTest{
 
 
     private BeanMapper configureBeanMapper(){
-        SimpleFileMapperConfiguration fileConfig = new SimpleFileMapperConfiguration();
-        fileConfig.setConfigurationFile("/net/freedom/gj/beans/beanA-to-beanB.txt");
+        // Optionally, use xml structured file.
+        SimpleXmlMapperConfiguration fileConfig = new SimpleXmlMapperConfiguration();
+        fileConfig.setConfigurationFile("/net/freedom/gj/beans/xml/beanA-to-beanB.xml");
         fileConfig.setSourceType("net.freedom.gj.beans.EntityBeanA");
         fileConfig.setTargetType("net.freedom.gj.beans.EntityBeanB");
 
         //You can use multiple configuration files to map single complex object.
+        //Optionally,using text custom format file.
         SimpleFileMapperConfiguration additionalConfig = new SimpleFileMapperConfiguration();
-        additionalConfig.setConfigurationFile("/net/freedom/gj/beans/beanA-to-beanB-additional-mapping.txt");
+        additionalConfig.setConfigurationFile("/net/freedom/gj/beans/txt/beanA-to-beanB-additional-mapping.txt");
         additionalConfig.setSourceType("net.freedom.gj.beans.EntityBeanA");
         additionalConfig.setTargetType("net.freedom.gj.beans.EntityBeanB");
 
-
+        //Simple factory, suitable where no CDI capability available.
         MapperConfigurationBeanFactory factory = new MapperConfigurationBeanFactory();
         factory.add(fileConfig);
         factory.add(additionalConfig);

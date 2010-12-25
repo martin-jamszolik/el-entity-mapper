@@ -25,6 +25,8 @@ public class ToStringConverter implements Converter{
     public Object convert(Object object) {
         if( object == null )
             return "";
+        if( object.getClass().equals(String.class) )
+            return (String)object;
 
         return object.toString();
     }
