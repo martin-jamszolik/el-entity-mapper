@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import net.freedom.gj.beans.config.SimpleFileMapperConfiguration;
+import net.freedom.gj.beans.config.AbstractMapperConfiguration;
 import net.freedom.gj.beans.config.MapperConfiguration;
 import net.freedom.gj.beans.mapper.MapperConfigurationContext;
 
@@ -30,9 +30,9 @@ import net.freedom.gj.beans.mapper.MapperConfigurationContext;
  */
 public class MapperConfigurationBeanFactory implements BeanFactory<MapperConfiguration,MapperConfigurationContext> {
 
-    List<SimpleFileMapperConfiguration> list = new ArrayList<SimpleFileMapperConfiguration>();
+    List<AbstractMapperConfiguration> list = new ArrayList<AbstractMapperConfiguration>();
 
-    public void add( SimpleFileMapperConfiguration config ){
+    public void add( AbstractMapperConfiguration config ){
         list.add( config );
     }
 
@@ -48,7 +48,7 @@ public class MapperConfigurationBeanFactory implements BeanFactory<MapperConfigu
         String source = data.getSource().getClass().getName();
         String target = data.getTarget().getClass().getName();        
         Set<MapperConfiguration> contextList = new HashSet<MapperConfiguration>();
-        for( SimpleFileMapperConfiguration c : list ){
+        for( AbstractMapperConfiguration c : list ){
             if( source.equals(c.getSourceType()) && target.equals(c.getTargetType()) ){
                 contextList.add(c);
             }

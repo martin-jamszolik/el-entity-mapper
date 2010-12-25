@@ -15,14 +15,7 @@
  */
 package net.freedom.gj.beans.config;
 
-import net.freedom.gj.beans.factory.CriteriaBuilder;
-import net.freedom.gj.beans.factory.InstanceOfMatcher;
-import net.freedom.gj.beans.factory.PropertyBuilder;
-import net.freedom.gj.beans.factory.BeanCriteria;
-import net.freedom.gj.beans.factory.PropertyCriteria;
 import net.freedom.gj.beans.mapper.PostProcessor;
-import java.util.HashMap;
-import java.util.Map;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,13 +31,9 @@ import static net.freedom.gj.beans.util.BasicHelper.resolveKey;
  *
  * @author Martin Jamszolik
  */
-public class SimpleFileMapperConfiguration implements MapperConfiguration,BeanCriteria {
+public class SimpleFileMapperConfiguration extends AbstractMapperConfiguration {
 
-    private String configurationFile;
-    private MappingInformation mappingInformation;
-    private String sourceType;
-    private String targetType;
-    private Map<String,Converter> converters = new HashMap<String,Converter>(4);
+    
 
     public MappingInformation getMappingInformation() {
         try {
@@ -115,47 +104,4 @@ public class SimpleFileMapperConfiguration implements MapperConfiguration,BeanCr
         return data;
     }
 
-    private Converter getConverter(String className ) throws Exception{
-
-        if( converters.containsKey(className) )
-            return converters.get(className);
-
-        converters.put(className, (Converter)(Class.forName(className)).newInstance()  );
-        return converters.get(className);
-    }
-
-    public String getConfigurationFile() {
-        return configurationFile;
-    }
-
-    public void setConfigurationFile(String configurationFile) {
-        this.configurationFile = configurationFile;
-    }
-
-    public String getSourceType() {
-        return sourceType;
-    }
-
-    public void setSourceType(String sourceType) {
-        this.sourceType = sourceType;
-    }
-
-    public String getTargetType() {
-        return targetType;
-    }
-
-    public void setTargetType(String targetType) {
-        this.targetType = targetType;
-    }
-
-    public List<PropertyCriteria> getCriteria() {
-        try {   
-            return new CriteriaBuilder().build(new PropertyBuilder()
-                    .build("source", new InstanceOfMatcher(Class.forName(sourceType)))
-                    .build("target", new InstanceOfMatcher(Class.forName(targetType)))).getCriteria();
-
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException(e.getMessage(),e.getCause());
-        }
-    }
 }

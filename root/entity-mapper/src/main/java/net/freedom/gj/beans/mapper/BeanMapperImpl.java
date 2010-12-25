@@ -277,6 +277,6 @@ public class BeanMapperImpl implements BeanMapper {
     }
 
     public <T> T map(Object source, T target) {
-        return map(new MapConfigurationContext("source", source, "target", target));
+        return (T) map(new MapConfigurationContext("source", source, "target", target));
     }
 }

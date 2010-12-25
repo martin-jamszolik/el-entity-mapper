@@ -17,6 +17,7 @@
 
 package net.freedom.gj.beans.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ import java.util.List;
  *
  */
 public class MappingInformation {
-	private List<MappingData> mappingData;
+	private List<MappingData> mappingData = new ArrayList<MappingData>();
 	private List<FunctionData> functionsData;
 	private List<PostProcessor> postProcessors;
 	

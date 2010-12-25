@@ -1,0 +1,9 @@
+<mapping>
+    <bind source="myDate" target="extension.myDate" converter="net.freedom.gj.beans.converter.ToStringConverter" />
+    <bind source="name" target="extension.myName" />
+    <collection source="groups" target="entityGroups" type="net.freedom.gj.beans.GroupEntity" >
+        <bind source="name" target="groupName" />
+        <bind source="rank" target="rank" />
+    </collection>
+    <bind source="value" target="extension.myMoney" />
+</mapping>
