@@ -81,7 +81,7 @@ public class MappingTest{
         //You can use multiple configuration files to map single complex object.
         //Optionally,using text custom format file.
         SimpleFileMapperConfiguration additionalConfig = new SimpleFileMapperConfiguration();
-        additionalConfig.setConfigurationFile("/net/freedom/gj/beans/txt/beanA-to-beanB-additional-mapping.txt");
+        additionalConfig.setConfigurationFile("/net/freedom/gj/beans/txt/beanA-to-beanB-mapping2.txt");
         additionalConfig.setSourceType("net.freedom.gj.beans.EntityBeanA");
         additionalConfig.setTargetType("net.freedom.gj.beans.EntityBeanB");
 
