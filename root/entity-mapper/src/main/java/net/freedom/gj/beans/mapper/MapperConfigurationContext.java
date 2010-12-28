@@ -23,8 +23,8 @@ package net.freedom.gj.beans.mapper;
  */
 public interface MapperConfigurationContext {
 
-    public <T> T getSource();
+    public Object getSource();
 
-	public <T> T getTarget() ;
+	public Object getTarget() ;
 
 }
