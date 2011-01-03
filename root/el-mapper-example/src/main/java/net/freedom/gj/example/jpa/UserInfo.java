@@ -16,10 +16,7 @@
 
 package net.freedom.gj.example.jpa;
 
-import static javax.persistence.TemporalType.TIMESTAMP;
-
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -29,7 +26,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
 
 /**
  *

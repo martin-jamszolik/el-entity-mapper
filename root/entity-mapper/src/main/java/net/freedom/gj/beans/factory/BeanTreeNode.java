@@ -25,7 +25,7 @@ import java.util.Set;
 public class BeanTreeNode<T> {
 	private PropertyCriterion criterion;
 	private Set<T> objects;
-	private List<BeanTreeNode> children;
+	private List<BeanTreeNode<T>> children;
 	
 	public boolean hasChildren(){
 		return children != null && children.size() > 0; 
@@ -42,18 +42,18 @@ public class BeanTreeNode<T> {
 		getObjects().add(object);
 	}
 	
-	public void addChildNode(BeanTreeNode child){
+	public void addChildNode(BeanTreeNode<T> child){
 		if(getChildren() == null){
-			setChildren(new ArrayList<BeanTreeNode>()); 
+			setChildren(new ArrayList<BeanTreeNode<T>>()); 
 		}
 		getChildren().add(child);
 	}
 
-	public List<BeanTreeNode> getChildren() {
+	public List<BeanTreeNode<T>> getChildren() {
 		return children;
 	}
 
-	public void setChildren(List<BeanTreeNode> children) {
+	public void setChildren(List<BeanTreeNode<T>> children) {
 		this.children = children;
 	}
 

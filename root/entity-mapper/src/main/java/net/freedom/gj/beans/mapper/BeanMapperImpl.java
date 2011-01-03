@@ -201,7 +201,7 @@ public class BeanMapperImpl implements BeanMapper {
             return;
         }
 
-        Class type = Object.class;
+        Class<?> type = Object.class;
         String expression = null;
         ValueExpression valueExpression = null;
         Object value = null;
@@ -227,17 +227,17 @@ public class BeanMapperImpl implements BeanMapper {
                 // Else we don't know the implementation type to create. So, throw exception.
                 if (type.isInterface()) {
                     if (type.equals(Map.class)) { // If it is a Map, create HashMap
-                        valueExpression.setValue(context, new HashMap());
+                        valueExpression.setValue(context, new HashMap<String,Object>());
                     } else if (type.equals(List.class)) { // If it is List, create ArrayList and populate dummy data to prevent ArrayIndexOutOfBound exception.
-                        List list = new ArrayList();
+                        List<Object> list = new ArrayList<Object>();
                         valueExpression.setValue(context, list);
                         for (int j = 0; j < getLength(sourceValue); j++) {
                             list.add(newInstance(Class.forName(mappingData.getCollectionObjectType()), null));
                         }
                     } else if (type.equals(Set.class)) { // If it is Set, create HashSet 
-                        valueExpression.setValue(context, new HashSet());
+                        valueExpression.setValue(context, new HashSet<Object>());
                     } else if (type.equals(SortedSet.class)) { // If it is SortedSet, create TreeSet
-                        valueExpression.setValue(context, new TreeSet());
+                        valueExpression.setValue(context, new TreeSet<Object>());
                     } else {
                         throw new InstantiationException("Could not identify the implementation of " + type);
                     }
@@ -259,7 +259,7 @@ public class BeanMapperImpl implements BeanMapper {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    private Object newInstance(Class type, Object value) throws IllegalAccessException, InstantiationException {
+    private Object newInstance(Class<?> type, Object value) throws IllegalAccessException, InstantiationException {
         if (type.isArray()) {
             return Array.newInstance(type.getComponentType(), getLength(value));
         }

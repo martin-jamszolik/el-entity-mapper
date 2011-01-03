@@ -18,17 +18,12 @@ package net.freedom.gj.beans.converter;
 
 public class IntegerToLongConverter implements Converter{
 
-	@SuppressWarnings("unchecked")
 	public Object convert(Object value) {
 		
 		if(value instanceof Integer == false){
 			throw new IllegalArgumentException("Converter is expecting instance of Integer");
 		}
-		
-		if(value == null ){
-			return Long.parseLong("1");
-		}
-		
+				
 		return ((Integer)value).longValue();
 	}
 }
