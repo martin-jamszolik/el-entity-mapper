@@ -33,7 +33,7 @@ import org.springframework.beans.factory.ListableBeanFactory;
 
 public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, BeanFactoryAware{
 	private org.springframework.beans.factory.BeanFactory beanFactory = null;
-	private BeanTreeNode rootNode = null;
+	private BeanTreeNode<BeanCriteria> rootNode = null;
 	private String objectType = null;
 	
 	
@@ -71,7 +71,7 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 	
 	private void addObject(BeanCriteria object){
 		if(rootNode == null){
-			rootNode = new BeanTreeNode();
+			rootNode = new BeanTreeNode<BeanCriteria>();
 			rootNode.setCriterion(new PropertyCriterion());
 			rootNode.getCriterion().setPropertyName("root");
 		}
@@ -83,20 +83,20 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 		}
 	}
 	
-	private void addObject(BeanTreeNode node, List<PropertyCriterion> criteria, BeanCriteria object){
+	private void addObject(BeanTreeNode<BeanCriteria> node, List<PropertyCriterion> criteria, BeanCriteria object){
 		if(criteria == null || criteria.isEmpty()){
 			node.addObject(object);
 			return;
 		}
-		BeanTreeNode matchedChild = getMatchedChild(node, criteria.get(0));
+		BeanTreeNode<BeanCriteria> matchedChild = getMatchedChild(node, criteria.get(0));
 		criteria.remove(0);
 		addObject(matchedChild, criteria, object);
 	}
 	
-	private BeanTreeNode getMatchedChild(BeanTreeNode<BeanCriteria> parent, PropertyCriterion criterion){
+	private BeanTreeNode<BeanCriteria> getMatchedChild(BeanTreeNode<BeanCriteria> parent, PropertyCriterion criterion){
 		BeanTreeNode<BeanCriteria> matchedChild = null;
 		if(parent.hasChildren()){
-			for(BeanTreeNode child : parent.getChildren()){
+			for(BeanTreeNode<BeanCriteria> child : parent.getChildren()){
 				if(child.getCriterion().equals(criterion)){
 					matchedChild = child;
 					break;
@@ -126,7 +126,7 @@ public class TreeBeanFactoryImpl implements BeanFactory<BeanCriteria, Object>, B
 			objects.addAll(node.getObjects());
 		}
 		Set<BeanCriteria> temp = null;
-		for(BeanTreeNode child : node.getChildren()){
+		for(BeanTreeNode<BeanCriteria> child : node.getChildren()){
 			if(child.getCriterion().matchesCriterion(data)){
 				temp = getObjects(child, data);
 				if(temp != null){

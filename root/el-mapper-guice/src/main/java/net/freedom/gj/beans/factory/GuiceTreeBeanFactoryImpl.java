@@ -39,7 +39,7 @@ public class GuiceTreeBeanFactoryImpl implements BeanFactory<MapperConfiguration
     private String objectType = null;
     
     
-	private BeanTreeNode rootNode = null;
+	private BeanTreeNode<MapperConfiguration> rootNode = null;
 	
 	
 	
@@ -62,7 +62,7 @@ public class GuiceTreeBeanFactoryImpl implements BeanFactory<MapperConfiguration
 			throw new IllegalStateException("Expected single object but multiple objects are found.");
 		}
 		
-		return objects.iterator().next();
+		return (MapperConfiguration)objects.iterator().next();
 	}
 	
 	public Set<MapperConfiguration> getObjects(MapperConfigurationContext data) {
@@ -75,7 +75,7 @@ public class GuiceTreeBeanFactoryImpl implements BeanFactory<MapperConfiguration
 	
 	private void addObject(BeanCriteria object){
 		if(rootNode == null){
-			rootNode = new BeanTreeNode();
+			rootNode = new BeanTreeNode<MapperConfiguration>();
 			rootNode.setCriterion(new PropertyCriterion());
 			rootNode.getCriterion().setPropertyName("root");
 		}
@@ -83,16 +83,16 @@ public class GuiceTreeBeanFactoryImpl implements BeanFactory<MapperConfiguration
 		for(PropertyCriteria propertyCriteria : criteriaList){
 			List<PropertyCriterion> criteria = new ArrayList<PropertyCriterion>(propertyCriteria.getCriteria());
 			Collections.sort(criteria, new PropertyCriterionComparator());
-			addObject(rootNode, criteria, object);
+			addObject(rootNode, criteria, (MapperConfiguration)object);
 		}
 	}
 	
-	private void addObject(BeanTreeNode node, List<PropertyCriterion> criteria, BeanCriteria object){
+	private void addObject(BeanTreeNode<MapperConfiguration> node, List<PropertyCriterion> criteria, MapperConfiguration object){
 		if(criteria == null || criteria.isEmpty()){
 			node.addObject(object);
 			return;
 		}
-		BeanTreeNode matchedChild = getMatchedChild(node, criteria.get(0));
+		BeanTreeNode<MapperConfiguration> matchedChild = getMatchedChild(node, criteria.get(0));
 		criteria.remove(0);
 		addObject(matchedChild, criteria, object);
 	}
@@ -100,7 +100,7 @@ public class GuiceTreeBeanFactoryImpl implements BeanFactory<MapperConfiguration
 	private BeanTreeNode<MapperConfiguration> getMatchedChild(BeanTreeNode<MapperConfiguration> parent, PropertyCriterion criterion){
 		BeanTreeNode<MapperConfiguration> matchedChild = null;
 		if(parent.hasChildren()){
-			for(BeanTreeNode child : parent.getChildren()){
+			for(BeanTreeNode<MapperConfiguration> child : parent.getChildren()){
 				if(child.getCriterion().equals(criterion)){
 					matchedChild = child;
 					break;
@@ -130,7 +130,7 @@ public class GuiceTreeBeanFactoryImpl implements BeanFactory<MapperConfiguration
 			objects.addAll(node.getObjects());
 		}
 		Set<MapperConfiguration> temp = null;
-		for(BeanTreeNode child : node.getChildren()){
+		for(BeanTreeNode<MapperConfiguration> child : node.getChildren()){
 			if(child.getCriterion().matchesCriterion(data)){
 				temp = getObjects(child, data);
 				if(temp != null){

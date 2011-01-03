@@ -25,7 +25,11 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ResultTableModel extends AbstractTableModel {
 
-    static String[] names = {"property", "Result"};
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5100879499887418720L;
+	static String[] names = {"property", "Result"};
     Object data;
     int rowcount;
     List<Method> getters;

@@ -18,9 +18,9 @@
 package net.freedom.gj.beans.factory;
 
 public class InstanceOfMatcher implements PropertyMatcher{
-	private Class classVariable;
+	private Class<?> classVariable;
 	
-	public InstanceOfMatcher(Class classVariable){
+	public InstanceOfMatcher(Class<?> classVariable){
 		this.classVariable = classVariable;
 	}
 	

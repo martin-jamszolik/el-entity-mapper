@@ -3,3 +3,12 @@
 \.chg\..*$
 \.rej$
 \.conflict\~$
+
+syntax: regexp
+^root/el-mapper-example/target$
+syntax: regexp
+^root/el-mapper-guice/target$
+syntax: regexp
+^root/el-mapper-spring/target$
+syntax: regexp
+^root/entity-mapper/target$
