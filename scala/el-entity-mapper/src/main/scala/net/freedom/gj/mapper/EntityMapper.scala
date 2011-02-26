@@ -16,7 +16,9 @@ class EntityMapperImpl extends EntityMapper {
 
   def map[T](source:Any, target:T ):T = {
 
-    val configuration = configurationFactory.getConfigurations(new ConfigurationContext {def source = source; def target = target} )
+    val configurations = configurationFactory.getConfigurations(
+              new ConfigurationContext {def source = source; def target = target}   )
+            
     // Get EL context with source and target objects configured
     val elContext = getElContext(source, target)
     
@@ -31,15 +33,6 @@ class EntityMapperImpl extends EntityMapper {
      * @param target Target object
      * @return Returns ELContext object.
      */
-//    private ELContext getElContext(Object source, Object target) {
-//        BeanMapperELContext context = new BeanMapperELContext();
-//
-//        context.setSource(factory.createValueExpression(source, source.getClass()));
-//        context.setTarget(factory.createValueExpression(target, target.getClass()));
-//
-//        return context;
-//    }
-//
       private def getElContext[T](source:Any,target:T):ELContext ={
         val context = new util.BeanMapperELContext()
         context.setSource(factory.createValueExpression(source, source.asInstanceOf[AnyRef].getClass ) )
