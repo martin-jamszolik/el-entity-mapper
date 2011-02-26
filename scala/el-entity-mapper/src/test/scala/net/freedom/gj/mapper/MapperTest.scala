@@ -1,9 +1,8 @@
+package net.freedom.gj.mapper
 
 
-package net.freedom.gj.mapper.test
-
-import net.freedom.gj.mapper.config.SimpleConfigurationFactory
 import net.freedom.gj.mapper._
+import net.freedom.gj.mapper.config.{SimpleConfigurationFactory,SimpleXmlMapperConfiguration}
 import org.junit._
 import Assert._
 
@@ -23,9 +22,10 @@ class MapperTest {
 
 
   private def getEntityMapper():EntityMapper = { 
-   val mapper =  new EntityMapperImpl
+   val mapper =  new EntityMapperImpl   
+   SimpleConfigurationFactory.add( 
+      new SimpleXmlMapperConfiguration("net/test/a-to-b.xml","net.text.A","net.test.B") );
    mapper.configurationFactory = SimpleConfigurationFactory
-   
    mapper
   }
 
