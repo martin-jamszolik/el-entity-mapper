@@ -15,7 +15,7 @@
 			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd" >
 			
-	<import resource="converter-config.xml"/>
+	
 	
 	<bean id="beanMapper" class="net.freedom.gj.beans.mapper.BeanMapperImpl" >
 		<property name="beanFactory">
