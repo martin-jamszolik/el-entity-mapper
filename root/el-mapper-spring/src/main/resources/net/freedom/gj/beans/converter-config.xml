@@ -8,14 +8,17 @@
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
     
     <bean id="dateStringConverter" class="net.freedom.gj.beans.converter.DateStringConverter"/>
-
     <bean id="toStringConverter" class="net.freedom.gj.beans.converter.ToStringConverter"/>
-
     <bean id="nullableToStringConverter" class="net.freedom.gj.beans.converter.NullableToStringConverter"/>
-
     <bean id="decimalToStringConverter" class="net.freedom.gj.beans.converter.DecimalToStringConverter"/>
-
     <bean id="toUpperCaseConverter" class="net.freedom.gj.beans.converter.ToUpperCaseConverter"/>
-
+    
+    <util:map id="converterMap">
+       <entry key="dateStringConverter" value-ref="dateStringConverter" />       
+       <entry key="toStringConverter" value-ref="toStringConverter" />
+       <entry key="nullableToStringConverter" value-ref="nullableToStringConverter" />
+       <entry key="decimalToStringConverter" value-ref="decimalToStringConverter" />
+       <entry key="toUpperCaseConverter" value-ref="toUpperCaseConverter" />
+    </util:map>
 
 </beans>

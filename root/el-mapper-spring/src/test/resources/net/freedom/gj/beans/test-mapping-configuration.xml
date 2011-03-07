@@ -16,7 +16,7 @@
 			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd" >
 
 
-
+    <import resource="classpath:/net/freedom/gj/beans/converter-config.xml"/>
 
 	<bean class="net.freedom.gj.beans.config.SpringMapperConfiguration"
             p:configurationFile="net/freedom/gj/beans/beanA-to-beanB.xml"

@@ -26,6 +26,8 @@ import net.freedom.gj.beans.factory.InstanceOfMatcher;
 import net.freedom.gj.beans.factory.PropertyBuilder;
 import net.freedom.gj.beans.factory.PropertyCriteria;
 import net.freedom.gj.beans.mapper.MappingInformation;
+import net.freedom.gj.beans.util.Lg;
+import net.freedom.gj.beans.util.Lg.Level;
 
 /**
  *
@@ -61,7 +63,18 @@ public abstract class AbstractMapperConfiguration implements MapperConfiguration
     public void setTargetType(String targetType) {
         this.targetType = targetType;
     }
+    
+    public void addConverter(String key, Converter converter){
+        converters.put(key, converter);
+    }
 
+    public Map<String, Converter> getConverters() {
+        return converters;
+    }
+
+    public void setConverters(Map<String, Converter> converters) {
+        this.converters.putAll(converters);
+    }
     
     protected Converter getConverter(String className) {
         if ( className == null )
@@ -70,10 +83,12 @@ public abstract class AbstractMapperConfiguration implements MapperConfiguration
         if (converters.containsKey(className)) {
             return converters.get(className);
         }
+        Lg.log(Level.WARN, className+" Converter not available in predefined map, but is needed. Will try to instantiate one.");
         try {
             converters.put(className, (Converter) (Class.forName(className)).newInstance());
             return converters.get(className);
         } catch (Exception ex) {
+            Lg.log(Level.ERROR, "Failed to produce a converter"+ex.getMessage() );
             return null;
         }
     }

@@ -32,6 +32,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
      "classpath:/net/freedom/gj/beans/bean-mapper-config.xml",
+     "classpath:/net/freedom/gj/beans/simple-xml-mapping-config.xml",
      "classpath:/net/freedom/gj/beans/test-mapping-configuration.xml"
 })
 
