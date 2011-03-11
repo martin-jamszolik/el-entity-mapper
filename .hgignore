@@ -1,14 +1,17 @@
+.classpath$
+.project$
+\.iml$
+\.ipr$
+\.iws$
 \.orig$
 \.orig\..*$
 \.chg\..*$
 \.rej$
+.scala_dependencies
 \.conflict\~$
+/target$
+/.settings$
 
-syntax: regexp
-^root/el-mapper-example/target$
-syntax: regexp
-^root/el-mapper-guice/target$
-syntax: regexp
-^root/el-mapper-spring/target$
-syntax: regexp
-^root/entity-mapper/target$
+syntax: glob
+nb-*.xml
+
