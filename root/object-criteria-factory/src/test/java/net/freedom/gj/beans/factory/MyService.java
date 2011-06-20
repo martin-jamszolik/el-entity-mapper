@@ -13,28 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package net.freedom.gj.beans.mapper;
-
-import net.freedom.gj.beans.criteria.MapContext;
+package net.freedom.gj.beans.factory;
 
 /**
  *
- * @author Martin Jamszolik
+ * @author martin
  */
-public class MapConfigurationContext extends MapContext implements MapperConfigurationContext {
-
+public interface MyService {
     
-    public MapConfigurationContext(Object... args) {
-		super(args);
-	}
-
-    public Object getSource() {
-       return get("source");
-    }
-
-    public Object getTarget() {
-        return get("target");
-    }
-
+    void execute();
 }

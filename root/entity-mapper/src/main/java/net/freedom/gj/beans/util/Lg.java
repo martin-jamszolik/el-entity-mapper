@@ -41,7 +41,7 @@ public class Lg {
      * @param msg
      */
     public static void log(Level level, String msg) {
-        log(Lg.class, level, msg, null);
+        log(null, level, msg, null);
     }
 
     /**

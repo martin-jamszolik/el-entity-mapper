@@ -13,28 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package net.freedom.gj.beans.mapper;
-
-import net.freedom.gj.beans.criteria.MapContext;
+package net.freedom.gj.beans.factory;
 
 /**
  *
  * @author Martin Jamszolik
  */
-public class MapConfigurationContext extends MapContext implements MapperConfigurationContext {
+public class DataEntity {
+    private String client;
+    private String category;
 
+    public DataEntity(String client, String category) {
+        this.client = client;
+        this.category = category;
+    }
+        
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
     
-    public MapConfigurationContext(Object... args) {
-		super(args);
-	}
-
-    public Object getSource() {
-       return get("source");
-    }
-
-    public Object getTarget() {
-        return get("target");
-    }
-
+    
 }

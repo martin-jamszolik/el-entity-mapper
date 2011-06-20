@@ -28,7 +28,11 @@ import javax.swing.table.AbstractTableModel;
  */
 public class InputTableModel extends AbstractTableModel {
 
-    static String[] names = {"property", "Input"};
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 656818861262206192L;
+	static String[] names = {"property", "Input"};
     Object data;
     int rowcount;
     List<Method> getters;
@@ -90,10 +94,10 @@ public class InputTableModel extends AbstractTableModel {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         try {
             Method getter = getters.get(rowIndex);
-            Class gPar = getter.getReturnType();
+            Class<?> gPar = getter.getReturnType();
             Method setter = data.getClass().getMethod(getter.getName().replaceFirst("get", "set"), gPar);
 
-            Class[] par = setter.getParameterTypes();
+            Class<?>[] par = setter.getParameterTypes();
 
             if (par[0].isPrimitive() && par[0].getName().equals("int")) {
                 aValue = Integer.parseInt((String) aValue);
