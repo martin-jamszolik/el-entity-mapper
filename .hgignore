@@ -3,3 +3,10 @@
 \.chg\..*$
 \.rej$
 \.conflict\~$
+target
+\.classpath$
+\.project$
+\.settings
+\.iml$
+\.ipr$
+\.iws$
