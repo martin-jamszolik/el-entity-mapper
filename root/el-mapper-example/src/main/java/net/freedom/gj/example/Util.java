@@ -111,7 +111,7 @@ public class Util {
 
     }
 
-    public static List<Method> getGetterMethods(Class clazz) {
+    public static List<Method> getGetterMethods(Class<?> clazz) {
         List<Method> allMethods = new ArrayList<Method>();
         do {
             try {

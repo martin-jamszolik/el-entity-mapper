@@ -14,27 +14,18 @@
  * limitations under the License.
  */
 
-package net.freedom.gj.beans.mapper;
 
-import net.freedom.gj.beans.criteria.MapContext;
+package net.freedom.gj.beans.matcher;
 
-/**
- *
- * @author Martin Jamszolik
- */
-public class MapConfigurationContext extends MapContext implements MapperConfigurationContext {
-
-    
-    public MapConfigurationContext(Object... args) {
-		super(args);
+public class InstanceOfMatcher implements PropertyMatcher{
+	private Class<?> classVariable;
+	
+	public InstanceOfMatcher(Class<?> classVariable){
+		this.classVariable = classVariable;
 	}
-
-    public Object getSource() {
-       return get("source");
+	
+	public boolean matches(Object value) {
+        return classVariable.isInstance(value);
     }
-
-    public Object getTarget() {
-        return get("target");
-    }
-
+    
 }

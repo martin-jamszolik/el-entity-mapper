@@ -14,27 +14,13 @@
  * limitations under the License.
  */
 
-package net.freedom.gj.beans.mapper;
+package net.freedom.gj.beans.factory;
 
-import net.freedom.gj.beans.criteria.MapContext;
+import java.util.Set;
 
-/**
- *
- * @author Martin Jamszolik
- */
-public class MapConfigurationContext extends MapContext implements MapperConfigurationContext {
+public interface BeanFactory<BeanType, DataType> {
 
-    
-    public MapConfigurationContext(Object... args) {
-		super(args);
-	}
-
-    public Object getSource() {
-       return get("source");
-    }
-
-    public Object getTarget() {
-        return get("target");
-    }
-
+	public BeanType getObject(DataType data);
+	
+	public Set<BeanType> getObjects(DataType data);
 }
