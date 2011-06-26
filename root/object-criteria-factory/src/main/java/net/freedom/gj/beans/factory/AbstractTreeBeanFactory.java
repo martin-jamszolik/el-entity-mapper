@@ -15,10 +15,14 @@
  */
 package net.freedom.gj.beans.factory;
 
-import net.freedom.gj.beans.criteria.PropertyCriterion;
-import net.freedom.gj.beans.criteria.PropertyCriteria;
-import net.freedom.gj.beans.criteria.PropertyCriterionComparator;
-import net.freedom.gj.beans.criteria.BeanCriteria;
+import net.freedom.gj.beans.annotation.Criteria;
+import net.freedom.gj.beans.annotation.Criterion;
+import net.freedom.gj.beans.annotation.Matcher;
+import net.freedom.gj.beans.criteria.*;
+import net.freedom.gj.beans.matcher.AlwaysTrueMatcher;
+import net.freedom.gj.beans.matcher.InstanceOfMatcher;
+import net.freedom.gj.beans.matcher.PropertyValueEqualsMatcher;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -45,25 +49,29 @@ public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements Bea
 
     public void init() throws Exception {
         Class type = Class.forName(beanType);
-        List<BeanCriteria> result = findAllByType(type);
-        for (BeanCriteria bean : result) {
+        List<Object> result = findAllByType(type);
+        for (Object bean : result) {
             addObject(bean);
         }
     }
 
-    protected abstract List<BeanCriteria> findAllByType(Class type);
+    protected abstract List<Object> findAllByType(Class type);
 
-    protected void addObject(BeanCriteria object) {
+    protected void addObject(Object object) {
         if (rootNode == null) {
             rootNode = new BeanTreeNode<BeanType>();
             rootNode.setCriterion(new PropertyCriterion());
             rootNode.getCriterion().setPropertyName("root");
         }
-        List<PropertyCriteria> criteriaList = object.getCriteria();
-        for (PropertyCriteria propertyCriteria : criteriaList) {
-            List<PropertyCriterion> criteria = new ArrayList<PropertyCriterion>(propertyCriteria.getCriteria());
-            Collections.sort(criteria, new PropertyCriterionComparator());
-            addObject(rootNode, criteria, (BeanType) object);
+
+        List<PropertyCriteria> criteriaList =  extractCriteria(object);
+
+        if (criteriaList != null) {
+            for (PropertyCriteria propertyCriteria : criteriaList) {
+                List<PropertyCriterion> criteria = new ArrayList<PropertyCriterion>(propertyCriteria.getCriteria());
+                Collections.sort(criteria, new PropertyCriterionComparator());
+                addObject(rootNode, criteria, (BeanType) object);
+            }
         }
     }
 
@@ -144,8 +152,44 @@ public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements Bea
 
         return objects;
     }
-    
-    
+
+    /**
+     * Helper method to create the property criteria.  The provided object will be checked for supported annotations
+     * and create the necessary property criteria.  If annotations are not present, then return property criteria
+     * that has been implemented based of extending BeanCriteria interface.  Otherwise, return null.
+     * @param object
+     * @return List of PropertyCriteria - either built through annotation or retrieved from concrete class.  Null otherwise.
+     */
+    private List<PropertyCriteria> extractCriteria(Object object){
+        List<PropertyCriteria> l = null;
+
+        if(object.getClass().isAnnotationPresent(Criteria.class)){
+
+            CriteriaBuilder criteriaBuilder = new CriteriaBuilder();
+            Criteria criteria = object.getClass().getAnnotation(Criteria.class);
+            for(Criterion criterion : criteria.value()){
+                Matcher matcher = criterion.propertyMatcher();
+                switch (matcher.matcher()){
+                    case ALWAYS_TRUE:
+                        criteriaBuilder.build(criterion.propertyName(), new AlwaysTrueMatcher());
+                        break;
+                    case VALUE_EQUALS:
+                        criteriaBuilder.build(criterion.propertyName(), new PropertyValueEqualsMatcher(matcher.stringToMatch()));
+                        break;
+                    case INSTANCE:
+                        criteriaBuilder.build(criterion.propertyName(), new InstanceOfMatcher(matcher.instanceToMatch()));
+                        break;
+                }
+
+            }
+            return criteriaBuilder.getCriteria();
+
+        }else if(object instanceof BeanCriteria){
+            return ((BeanCriteria) object).getCriteria();
+        }
+
+        return null;
+    }
 
     class BeanTreeNode<T> {
 

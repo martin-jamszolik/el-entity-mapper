@@ -16,6 +16,8 @@
 package net.freedom.gj.beans.factory;
 
 import java.util.List;
+
+import net.freedom.gj.beans.annotation.Criteria;
 import net.freedom.gj.beans.criteria.BeanCriteria;
 import net.freedom.gj.beans.criteria.CriteriaBuilder;
 import net.freedom.gj.beans.criteria.PropertyCriteria;

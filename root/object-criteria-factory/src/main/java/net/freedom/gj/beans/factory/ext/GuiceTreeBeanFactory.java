@@ -20,6 +20,8 @@ import com.google.inject.Injector;
 import com.google.inject.TypeLiteral;
 import java.util.ArrayList;
 import java.util.List;
+
+import net.freedom.gj.beans.annotation.Criteria;
 import net.freedom.gj.beans.criteria.BeanCriteria;
 import net.freedom.gj.beans.factory.AbstractTreeBeanFactory;
 
@@ -37,11 +39,15 @@ public class GuiceTreeBeanFactory<BeanType, DataType> extends AbstractTreeBeanFa
         
 
     @Override
-    protected List<BeanCriteria> findAllByType(Class type) {
-        List<BeanCriteria> list = new ArrayList<BeanCriteria>();
-        List<Binding<BeanCriteria>> result = injector.findBindingsByType( TypeLiteral.get(type) );
-        for( Binding<BeanCriteria> b : result){
-          list.add( b.getProvider().get() );            
+    protected List<Object> findAllByType(Class type) {
+        List<Object> list = new ArrayList<Object>();
+        List<Binding<Object>> result = injector.findBindingsByType( TypeLiteral.get(type) );
+        for( Binding<Object> b : result){
+
+            if(b.getClass().isAnnotationPresent(Criteria.class)
+                    || type.isInstance(b)){
+                list.add( b.getProvider().get() );
+            }
         }        
         return list;
     }

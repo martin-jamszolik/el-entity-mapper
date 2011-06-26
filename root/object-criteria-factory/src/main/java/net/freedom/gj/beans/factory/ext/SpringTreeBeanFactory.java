@@ -18,6 +18,8 @@ package net.freedom.gj.beans.factory.ext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import net.freedom.gj.beans.annotation.Criteria;
 import net.freedom.gj.beans.criteria.BeanCriteria;
 import net.freedom.gj.beans.factory.AbstractTreeBeanFactory;
 import org.springframework.beans.BeansException;
@@ -40,13 +42,16 @@ public class SpringTreeBeanFactory<BeanType, DataType> extends AbstractTreeBeanF
     }
 
     @Override
-    protected List<BeanCriteria> findAllByType(Class type) {
-       List<BeanCriteria> list = new ArrayList<BeanCriteria>();
-       Map<String, BeanCriteria> objects = BeanFactoryUtils.beansOfTypeIncludingAncestors(
+    protected List<Object> findAllByType(Class type) {
+       List<Object> list = new ArrayList<Object>();
+       Map<String, Object> objects = BeanFactoryUtils.beansOfTypeIncludingAncestors(
                 (ListableBeanFactory)beanFactory, type );
 
 		for(String key : objects.keySet()){
-			list.add(objects.get(key));
+            if(objects.get(key).getClass().isAnnotationPresent(Criteria.class)
+                    || type.isInstance(objects.get(key))){
+			    list.add(objects.get(key));
+            }
 		}
         return list;
     }
