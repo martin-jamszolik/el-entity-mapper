@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import net.freedom.gj.beans.annotation.Criteria;
 import net.freedom.gj.beans.criteria.BeanCriteria;
 
 /**
@@ -33,17 +35,18 @@ import net.freedom.gj.beans.criteria.BeanCriteria;
  */
 public class DefaultTreeBeanFactory<BeanType, DataType> extends AbstractTreeBeanFactory<BeanType, DataType> {
 
-    private Set<BeanCriteria> beans = new HashSet<BeanCriteria>();
+    private Set<Object> beans = new HashSet<Object>();
     
-    public void register(BeanCriteria... items ){
+    public void register(Object... items ){
         beans.addAll(Arrays.asList(items));
     }    
     
     @Override
-    protected List<BeanCriteria> findAllByType(Class type) {
-        List<BeanCriteria> list = new ArrayList<BeanCriteria>();        
-        for( BeanCriteria b: beans){
-            if( type.isInstance(b) ){
+    protected List<Object> findAllByType(Class type) {
+        List<Object> list = new ArrayList<Object>();
+        for( Object b: beans){
+            if( b.getClass().isAnnotationPresent(Criteria.class)
+                    || type.isInstance(b) ){
                 list.add( b );
             }
         }        
