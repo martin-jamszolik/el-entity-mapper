@@ -59,17 +59,16 @@ public class DefaultTreeBeanFactoryTest {
     public void testFactoryUsingMapContext() throws Exception{
         
          MyService service = factory.getObject(new MapContext("payload","I am a string value") );
-         
+         assertEquals(MyServiceA.class, service.getClass());
          service.execute();
          
          service = factory.getObject(new MapContext("payload",new Integer(0),"switch","ON" ) );
-        
+         assertEquals(MyServiceB.class, service.getClass());
          service.execute();
          
-         DataEntity pojo = new DataEntity("ABC","furniture");
-         
+         DataEntity pojo = new DataEntity("ABC","furniture");         
          service = factory.getObject(pojo);
-         
+         assertEquals(MyServiceC.class, service.getClass());
          service.execute();
          
     }

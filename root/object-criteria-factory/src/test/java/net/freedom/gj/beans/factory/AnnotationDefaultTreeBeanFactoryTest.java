@@ -15,6 +15,8 @@
  */
 package net.freedom.gj.beans.factory;
 
+import java.util.Date;
+import junit.framework.Assert;
 import net.freedom.gj.beans.criteria.MapContext;
 import org.junit.After;
 import org.junit.Before;
@@ -44,7 +46,7 @@ public class AnnotationDefaultTreeBeanFactoryTest {
         MyAnnotatedServiceC c = new MyAnnotatedServiceC();
         
         
-        System.out.println("registerBean");
+        System.out.println("Beans Registered");
         DefaultTreeBeanFactory<MyService,Object> instance = new DefaultTreeBeanFactory<MyService,Object>();
         instance.setObjectType("net.freedom.gj.beans.factory.MyService");
         instance.register(d,e,c);
@@ -57,18 +59,24 @@ public class AnnotationDefaultTreeBeanFactoryTest {
     @Test
     public void testFactoryUsingMapContext() throws Exception{
         
+         // Service A
          MyService service = factory.getObject(new MapContext("payload","I am a string value") );
+         Assert.assertEquals(MyAnnotatedServiceA.class, service.getClass());
+         service.execute();
          
+         // Service A again due to OR annotation.
+         service = factory.getObject(new MapContext("payload",new Date(),"other","extra") );
+         Assert.assertEquals(MyAnnotatedServiceA.class, service.getClass());         
          service.execute();
          
          service = factory.getObject(new MapContext("payload",new Integer(0),"switch","ON" ) );
-        
+         Assert.assertEquals(MyAnnotatedServiceB.class, service.getClass());
          service.execute();
          
-         DataEntity pojo = new DataEntity("ABC","furniture");
          
+         DataEntity pojo = new DataEntity("ABC","furniture");         
          service = factory.getObject(pojo);
-         
+         Assert.assertEquals(MyAnnotatedServiceC.class, service.getClass());
          service.execute();
          
     }
