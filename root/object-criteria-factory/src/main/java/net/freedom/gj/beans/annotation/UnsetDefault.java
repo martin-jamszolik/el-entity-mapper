@@ -13,22 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package net.freedom.gj.beans.annotation;
-
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 
 /**
  *
- * @author Modest Syla
+ * @author Martin Jamszolik
  */
-@Inherited
-@Retention(RetentionPolicy.RUNTIME)
-@Target({})
-public @interface Criterion {
-    String propertyName();
-    Matcher propertyMatcher();
+public final class UnsetDefault {
+    
+   public static final String UNSET_STRING ="---UNSET---";   
+    
 }

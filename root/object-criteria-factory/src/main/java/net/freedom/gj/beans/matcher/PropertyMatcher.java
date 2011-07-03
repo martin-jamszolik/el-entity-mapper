@@ -17,5 +17,7 @@
 package net.freedom.gj.beans.matcher;
 
 public interface PropertyMatcher {
+        public void setValue(Object matchingValue);
+        
 	public boolean matches(Object value);    
 }

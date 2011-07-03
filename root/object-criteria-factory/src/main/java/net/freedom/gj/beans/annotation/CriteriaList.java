@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.freedom.gj.beans.annotation;
 
-package net.freedom.gj.beans.matcher;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  *
- * @author Modest Syla
+ * @author Martin Jamszolik
  */
-public enum MatcherType {
-    ALWAYS_TRUE,
-    VALUE_EQUALS,
-    INSTANCE
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+public @interface CriteriaList {
+    Criteria[] value();
 }

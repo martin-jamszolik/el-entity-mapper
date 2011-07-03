@@ -17,20 +17,21 @@
 package net.freedom.gj.beans.factory;
 
 import net.freedom.gj.beans.annotation.Criteria;
-import net.freedom.gj.beans.annotation.Criterion;
-import net.freedom.gj.beans.annotation.Matcher;
-import net.freedom.gj.beans.criteria.BeanCriteria;
-import net.freedom.gj.beans.criteria.PropertyCriteria;
-import net.freedom.gj.beans.matcher.MatcherType;
+import net.freedom.gj.beans.annotation.CriteriaList;
 
-import java.util.List;
+import net.freedom.gj.beans.annotation.Matcher;
+
+import net.freedom.gj.beans.matcher.InstanceOfMatcher;
 
 /**
  *
  * @author Modest Syla
  */
-@Criteria({@Criterion(propertyName = "payload",
-                propertyMatcher = @Matcher(matcher = MatcherType.INSTANCE,instanceToMatch = String.class))})
+@CriteriaList({
+    @Criteria({
+        @Matcher(property = "payload",matcher = InstanceOfMatcher.class,classValue = String.class)
+    }) 
+})
 public class MyAnnotatedServiceA implements MyService{
 
     public void execute() {

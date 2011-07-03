@@ -28,4 +28,8 @@ public class AlwaysTrueMatcher implements PropertyMatcher{
         return true;
     }
 
+    public void setValue(Object matchingValue) {
+        // do nothing
+    }
+
 }

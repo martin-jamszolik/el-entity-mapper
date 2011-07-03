@@ -13,19 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package net.freedom.gj.beans.matcher;
 
-public class InstanceOfMatcher implements PropertyMatcher{
-	private Class<?> classVariable;
-	
-	public InstanceOfMatcher(Class<?> classVariable){
-		this.classVariable = classVariable;
-	}
-	
-	public boolean matches(Object value) {
-        return classVariable.isInstance(value);
+public class InstanceOfMatcher implements PropertyMatcher {
+
+    private Class<?> classVariable;
+
+    public InstanceOfMatcher(Class<?> classVariable) {
+        this.classVariable = classVariable;
+    }
+
+    public InstanceOfMatcher() {
     }
     
+
+    public boolean matches(Object value) {
+        return classVariable.isInstance(value);
+    }
+
+    public void setValue(Object matchingValue) {
+        this.classVariable = (Class<?>)matchingValue;
+    }
 }

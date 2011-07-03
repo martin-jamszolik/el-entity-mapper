@@ -16,18 +16,19 @@
 package net.freedom.gj.beans.factory;
 
 import net.freedom.gj.beans.annotation.Criteria;
-import net.freedom.gj.beans.annotation.Criterion;
 import net.freedom.gj.beans.annotation.Matcher;
 import net.freedom.gj.beans.criteria.*;
-import net.freedom.gj.beans.matcher.AlwaysTrueMatcher;
-import net.freedom.gj.beans.matcher.InstanceOfMatcher;
-import net.freedom.gj.beans.matcher.PropertyValueEqualsMatcher;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import net.freedom.gj.beans.annotation.CriteriaList;
+import net.freedom.gj.beans.annotation.UnsetDefault;
+import net.freedom.gj.beans.matcher.PropertyMatcher;
 
 /**
  * Using a Tree based bean factory means that you can assign multi-variant criteria
@@ -64,7 +65,7 @@ public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements Bea
             rootNode.getCriterion().setPropertyName("root");
         }
 
-        List<PropertyCriteria> criteriaList =  extractCriteria(object);
+        List<PropertyCriteria> criteriaList = extractCriteria(object);
 
         if (criteriaList != null) {
             for (PropertyCriteria propertyCriteria : criteriaList) {
@@ -160,34 +161,39 @@ public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements Bea
      * @param object
      * @return List of PropertyCriteria - either built through annotation or retrieved from concrete class.  Null otherwise.
      */
-    private List<PropertyCriteria> extractCriteria(Object object){
-        List<PropertyCriteria> l = null;
+    private List<PropertyCriteria> extractCriteria(Object object) {
+        try {
+            if (object instanceof BeanCriteria) {
+                return ((BeanCriteria) object).getCriteria();
+            }else 
+                if (object.getClass().isAnnotationPresent(Criteria.class)
+                    || object.getClass().isAnnotationPresent(CriteriaList.class)) {
 
-        if(object.getClass().isAnnotationPresent(Criteria.class)){
+                Criteria[] list = null;
 
-            CriteriaBuilder criteriaBuilder = new CriteriaBuilder();
-            Criteria criteria = object.getClass().getAnnotation(Criteria.class);
-            for(Criterion criterion : criteria.value()){
-                Matcher matcher = criterion.propertyMatcher();
-                switch (matcher.matcher()){
-                    case ALWAYS_TRUE:
-                        criteriaBuilder.build(criterion.propertyName(), new AlwaysTrueMatcher());
-                        break;
-                    case VALUE_EQUALS:
-                        criteriaBuilder.build(criterion.propertyName(), new PropertyValueEqualsMatcher(matcher.stringToMatch()));
-                        break;
-                    case INSTANCE:
-                        criteriaBuilder.build(criterion.propertyName(), new InstanceOfMatcher(matcher.instanceToMatch()));
-                        break;
+                if (object.getClass().isAnnotationPresent(CriteriaList.class)) {
+                    list = (object.getClass().getAnnotation(CriteriaList.class)).value();
+                } else {
+                    list = new Criteria[]{object.getClass().getAnnotation(Criteria.class)};
                 }
 
+                CriteriaBuilder builder = new CriteriaBuilder();
+                for (Criteria cri : list) {
+                    PropertyBuilder propertyBuilder = new PropertyBuilder();
+                    for (Matcher matcher : cri.value()) {
+                        PropertyMatcher instance = matcher.matcher().newInstance();
+                        instance.setValue(matcher.classValue() == UnsetDefault.class ? matcher.stringValue() : matcher.classValue());
+                        propertyBuilder.build(matcher.property(), instance);
+                    }
+                    builder.build(propertyBuilder);
+                }
+                return builder.getCriteria();
             }
-            return criteriaBuilder.getCriteria();
 
-        }else if(object instanceof BeanCriteria){
-            return ((BeanCriteria) object).getCriteria();
+        } catch (Exception ex) {
+            Logger.getLogger(AbstractTreeBeanFactory.class.getName())
+                    .log(Level.SEVERE, "Error while extracting criteria", ex);
         }
-
         return null;
     }
 
