@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.freedom.gj.beans.annotation.Criteria;
+import net.freedom.gj.beans.annotation.CriteriaList;
 import net.freedom.gj.beans.factory.AbstractTreeBeanFactory;
 
 /**
@@ -42,7 +43,9 @@ public class GuiceTreeBeanFactory<BeanType, DataType> extends AbstractTreeBeanFa
         List<Binding<Object>> result = injector.findBindingsByType(TypeLiteral.get(type));
         for (Binding<Object> b : result) {
             Object bean = b.getProvider().get();
-            if ( bean.getClass().isAnnotationPresent(Criteria.class) || type.isInstance(bean) ) {
+            if ( bean.getClass().isAnnotationPresent(Criteria.class) 
+                    ||bean.getClass().isAnnotationPresent(CriteriaList.class) 
+                    ||type.isInstance(bean) ) {
                 list.add(bean);
             }
         }
