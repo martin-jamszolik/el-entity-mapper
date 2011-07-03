@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.freedom.gj.beans.annotation.Criteria;
-import net.freedom.gj.beans.criteria.BeanCriteria;
+import net.freedom.gj.beans.annotation.CriteriaList;
 
 /**
  * Basic Implementation of BeanFactory. Ideal for use where IOC container is not
@@ -46,6 +46,7 @@ public class DefaultTreeBeanFactory<BeanType, DataType> extends AbstractTreeBean
         List<Object> list = new ArrayList<Object>();
         for( Object b: beans){
             if( b.getClass().isAnnotationPresent(Criteria.class)
+                    || b.getClass().isAnnotationPresent(CriteriaList.class)
                     || type.isInstance(b) ){
                 list.add( b );
             }

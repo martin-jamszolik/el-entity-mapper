@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.freedom.gj.beans.annotation.Criteria;
-import net.freedom.gj.beans.criteria.BeanCriteria;
+import net.freedom.gj.beans.annotation.CriteriaList;
 import net.freedom.gj.beans.factory.AbstractTreeBeanFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -49,6 +49,7 @@ public class SpringTreeBeanFactory<BeanType, DataType> extends AbstractTreeBeanF
 
 		for(String key : objects.keySet()){
             if(objects.get(key).getClass().isAnnotationPresent(Criteria.class)
+                    || objects.get(key).getClass().isAnnotationPresent(CriteriaList.class)
                     || type.isInstance(objects.get(key))){
 			    list.add(objects.get(key));
             }
