@@ -16,12 +16,14 @@
 
 package net.freedom.gj.beans.factory;
 
+import java.util.Date;
 import net.freedom.gj.beans.annotation.Criteria;
 import net.freedom.gj.beans.annotation.CriteriaList;
 
 import net.freedom.gj.beans.annotation.Matcher;
 
 import net.freedom.gj.beans.matcher.InstanceOfMatcher;
+import net.freedom.gj.beans.matcher.ToStringValueMatcher;
 
 /**
  *
@@ -30,7 +32,11 @@ import net.freedom.gj.beans.matcher.InstanceOfMatcher;
 @CriteriaList({
     @Criteria({
         @Matcher(property = "payload",matcher = InstanceOfMatcher.class,classValue = String.class)
-    }) 
+    }),
+    @Criteria({
+        @Matcher(property = "payload",matcher = InstanceOfMatcher.class,classValue = Date.class),
+        @Matcher(property = "other",matcher = ToStringValueMatcher.class,stringValue = "extra")
+    })  
 })
 public class MyAnnotatedServiceA implements MyService{
 
