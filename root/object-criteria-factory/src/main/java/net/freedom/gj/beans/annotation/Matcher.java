@@ -16,12 +16,12 @@
 
 package net.freedom.gj.beans.annotation;
 
-import net.freedom.gj.beans.matcher.MatcherType;
 
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import net.freedom.gj.beans.matcher.PropertyMatcher;
 
 /**
  *
@@ -31,8 +31,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({})
 public @interface Matcher {
-
-    MatcherType matcher();
-    String stringToMatch() default "";
-    Class instanceToMatch() default Object.class;
+    String property();
+    Class< ? extends PropertyMatcher> matcher();
+    String stringValue() default UnsetDefault.UNSET_STRING;
+    Class<?> classValue() default UnsetDefault.class;
 }

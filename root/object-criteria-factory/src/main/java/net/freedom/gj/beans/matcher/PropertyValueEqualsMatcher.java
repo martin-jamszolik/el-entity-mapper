@@ -13,51 +13,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package net.freedom.gj.beans.matcher;
 
-public class PropertyValueEqualsMatcher implements PropertyMatcher{
-	private Object compareWith;
-	
-	public PropertyValueEqualsMatcher(Object compareWith){
-		this.compareWith = compareWith;
-	}
-	
-	public boolean matches(Object value) {
-		if(value == compareWith){
-			return true;
-		}
-		
-		if(value == null || compareWith == null){
-			return false;
-		}
-		
-		return value.equals(compareWith);
-	}
+public class PropertyValueEqualsMatcher implements PropertyMatcher {
 
+    private Object compareWith;
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		final PropertyValueEqualsMatcher other = (PropertyValueEqualsMatcher) obj;
-		if (compareWith == null) {
-			if (other.compareWith != null)
-				return false;
-		} else if (!compareWith.equals(other.compareWith))
-			return false;
-		return true;
-	}
+    public PropertyValueEqualsMatcher(Object compareWith) {
+        this.compareWith = compareWith;
+    }
+
+    public PropertyValueEqualsMatcher() {
+    }
+
+    public boolean matches(Object value) {
+        if (value == compareWith) {
+            return true;
+        }
+
+        if (value == null || compareWith == null) {
+            return false;
+        }
+
+        return value.equals(compareWith);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final PropertyValueEqualsMatcher other = (PropertyValueEqualsMatcher) obj;
+        if (compareWith == null) {
+            if (other.compareWith != null) {
+                return false;
+            }
+        } else if (!compareWith.equals(other.compareWith)) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 17 * hash + (this.compareWith != null ? this.compareWith.hashCode() : 0);
         return hash;
+    }
+
+    public void setValue(Object matchingValue) {
+        this.compareWith = matchingValue;
     }
 }

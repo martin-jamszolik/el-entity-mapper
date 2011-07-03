@@ -17,19 +17,19 @@
 package net.freedom.gj.beans.factory;
 
 import net.freedom.gj.beans.annotation.Criteria;
-import net.freedom.gj.beans.annotation.Criterion;
 import net.freedom.gj.beans.annotation.Matcher;
-import net.freedom.gj.beans.matcher.MatcherType;
+import net.freedom.gj.beans.matcher.InstanceOfMatcher;
+import net.freedom.gj.beans.matcher.PropertyValueEqualsMatcher;
 
 /**
  *
  * @author Modest Syla
  */
 
-@Criteria({@Criterion(propertyName = "payload",
-                    propertyMatcher = @Matcher(matcher = MatcherType.INSTANCE,instanceToMatch = Integer.class)),
-            @Criterion(propertyName = "switch",
-                    propertyMatcher = @Matcher(matcher = MatcherType.VALUE_EQUALS,stringToMatch = "ON"))})
+@Criteria({
+    @Matcher(property = "payload",matcher = InstanceOfMatcher.class,classValue = Integer.class),
+    @Matcher(property = "switch",matcher = PropertyValueEqualsMatcher.class,stringValue = "ON") 
+})
 public class MyAnnotatedServiceB implements MyService{
 
     public void execute() {
