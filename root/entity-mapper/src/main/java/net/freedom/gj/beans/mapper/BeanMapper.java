@@ -30,6 +30,5 @@ public interface BeanMapper {
      * @return Returns target object.
      */
     public <T> T map(Object source, T target);
-
-    public <T> T map(MapperConfigurationContext context);
+   
 }
