@@ -16,38 +16,26 @@
 
 package net.freedom.gj.beans.mapper;
 
+import net.freedom.gj.beans.criteria.MapContext;
+
 /**
  * This context is used to get applicable MapperConfiguration instances.
  * @author Goutham Gogineni
  * @author Martin Jamszolik
  *
  */
-public class DefaultMapperConfigurationContext implements MapperConfigurationContext {
-	/**
-	 * Source object
-	 */
-	private Object source;
-	
-	/**
-	 * Target object
-	 */
-	private Object target;
-	
-	public DefaultMapperConfigurationContext(Object source, Object target){
-		this.source = source;
-		this.target = target;
+public class DefaultMapperConfigurationContext extends MapContext implements MapperConfigurationContext {
+
+    
+    public DefaultMapperConfigurationContext(Object... args) {
+		super(args);
 	}
-	
-	public Object getSource() {
-		return source;
-	}
-	public void setSource(Object source) {
-		this.source = source;
-	}
-	public Object getTarget() {
-		return target;
-	}
-	public void setTarget(Object target) {
-		this.target = target;
-	}
+
+    public Object getSource() {
+       return get("source");
+    }
+
+    public Object getTarget() {
+        return get("target");
+    }
 }
