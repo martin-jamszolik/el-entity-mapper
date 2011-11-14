@@ -14,28 +14,16 @@
  * limitations under the License.
  */
 
-package net.freedom.gj.beans.mapper;
 
-import net.freedom.gj.beans.criteria.MapContext;
+package net.freedom.gj.beans.criteria;
 
-/**
- * This context is used to get applicable MapperConfiguration instances.
- * @author Goutham Gogineni
- * @author Martin Jamszolik
- *
- */
-public class DefaultMapperConfigurationContext extends MapContext implements MapperConfigurationContext {
+import java.util.Comparator;
 
-    
-    public DefaultMapperConfigurationContext(Object... args) {
-		super(args);
+
+public class PropertyCriterionComparator implements Comparator<PropertyCriterion>{
+
+	public int compare(PropertyCriterion o1, PropertyCriterion o2) {
+		return o1.getPropertyName().compareTo(o2.getPropertyName());
 	}
 
-    public Object getSource() {
-       return get("source");
-    }
-
-    public Object getTarget() {
-        return get("target");
-    }
 }

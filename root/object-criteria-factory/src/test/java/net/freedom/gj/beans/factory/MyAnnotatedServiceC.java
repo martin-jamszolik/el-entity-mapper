@@ -14,28 +14,26 @@
  * limitations under the License.
  */
 
-package net.freedom.gj.beans.mapper;
+package net.freedom.gj.beans.factory;
 
-import net.freedom.gj.beans.criteria.MapContext;
+import net.freedom.gj.beans.annotation.Criteria;
+import net.freedom.gj.beans.annotation.Matcher;
+import net.freedom.gj.beans.matcher.PropertyValueEqualsMatcher;
+import net.freedom.gj.beans.matcher.ToStringValueMatcher;
 
 /**
- * This context is used to get applicable MapperConfiguration instances.
- * @author Goutham Gogineni
- * @author Martin Jamszolik
  *
+ * @author Modest Syla
  */
-public class DefaultMapperConfigurationContext extends MapContext implements MapperConfigurationContext {
 
-    
-    public DefaultMapperConfigurationContext(Object... args) {
-		super(args);
-	}
+@Criteria({
+    @Matcher(property = "client",matcher = PropertyValueEqualsMatcher.class,stringValue = "ABC"),
+    @Matcher(property = "category",matcher = ToStringValueMatcher.class,stringValue = "furniture")
+})
+public class MyAnnotatedServiceC implements MyService{
 
-    public Object getSource() {
-       return get("source");
+    public void execute() {
+        System.out.println("executed annotated Service C");
     }
 
-    public Object getTarget() {
-        return get("target");
-    }
 }

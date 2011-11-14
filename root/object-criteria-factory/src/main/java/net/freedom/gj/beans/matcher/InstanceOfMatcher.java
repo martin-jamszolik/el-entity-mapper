@@ -13,29 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.freedom.gj.beans.matcher;
 
-package net.freedom.gj.beans.mapper;
+public class InstanceOfMatcher implements PropertyMatcher {
 
-import net.freedom.gj.beans.criteria.MapContext;
+    private Class<?> classVariable;
 
-/**
- * This context is used to get applicable MapperConfiguration instances.
- * @author Goutham Gogineni
- * @author Martin Jamszolik
- *
- */
-public class DefaultMapperConfigurationContext extends MapContext implements MapperConfigurationContext {
-
-    
-    public DefaultMapperConfigurationContext(Object... args) {
-		super(args);
-	}
-
-    public Object getSource() {
-       return get("source");
+    public InstanceOfMatcher(Class<?> classVariable) {
+        this.classVariable = classVariable;
     }
 
-    public Object getTarget() {
-        return get("target");
+    public InstanceOfMatcher() {
+    }
+    
+
+    public boolean matches(Object value) {
+        return classVariable.isInstance(value);
+    }
+
+    public void setValue(Object matchingValue) {
+        this.classVariable = (Class<?>)matchingValue;
     }
 }

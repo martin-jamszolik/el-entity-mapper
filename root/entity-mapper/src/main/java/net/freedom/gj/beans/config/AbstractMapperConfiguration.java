@@ -20,12 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.freedom.gj.beans.converter.Converter;
-import net.freedom.gj.beans.factory.BeanCriteria;
-import net.freedom.gj.beans.factory.CriteriaBuilder;
-import net.freedom.gj.beans.factory.InstanceOfMatcher;
-import net.freedom.gj.beans.factory.PropertyBuilder;
-import net.freedom.gj.beans.factory.PropertyCriteria;
+import net.freedom.gj.beans.criteria.BeanCriteria;
+import net.freedom.gj.beans.criteria.CriteriaBuilder;
+import net.freedom.gj.beans.criteria.PropertyBuilder;
+import net.freedom.gj.beans.criteria.PropertyCriteria;
 import net.freedom.gj.beans.mapper.MappingInformation;
+import net.freedom.gj.beans.matcher.InstanceOfMatcher;
 
 /**
  *

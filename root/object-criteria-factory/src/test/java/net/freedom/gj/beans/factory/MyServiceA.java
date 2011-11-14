@@ -13,29 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.freedom.gj.beans.factory;
 
-package net.freedom.gj.beans.mapper;
+import java.util.List;
 
-import net.freedom.gj.beans.criteria.MapContext;
+import net.freedom.gj.beans.annotation.Criteria;
+import net.freedom.gj.beans.criteria.BeanCriteria;
+import net.freedom.gj.beans.criteria.CriteriaBuilder;
+import net.freedom.gj.beans.criteria.PropertyCriteria;
+import net.freedom.gj.beans.matcher.InstanceOfMatcher;
 
 /**
- * This context is used to get applicable MapperConfiguration instances.
- * @author Goutham Gogineni
- * @author Martin Jamszolik
  *
+ * @author martin
  */
-public class DefaultMapperConfigurationContext extends MapContext implements MapperConfigurationContext {
+public class MyServiceA implements MyService, BeanCriteria{
 
+    public void execute() {
+        System.out.println("executed A");
+    }
+
+    public List<PropertyCriteria> getCriteria() {
+        return new CriteriaBuilder().build("payload", new InstanceOfMatcher(String.class) ).getCriteria();
+    }
     
-    public DefaultMapperConfigurationContext(Object... args) {
-		super(args);
-	}
-
-    public Object getSource() {
-       return get("source");
-    }
-
-    public Object getTarget() {
-        return get("target");
-    }
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans 	xmlns="http://www.springframework.org/schema/beans" 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:p="http://www.springframework.org/schema/p" 
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:context="http://www.springframework.org/schema/context" 
+		xmlns:jee="http://www.springframework.org/schema/jee"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xmlns:util="http://www.springframework.org/schema/util"
+		xsi:schemaLocation="
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd" >
+			
+		
+	<bean id="beanMapper" class="net.freedom.gj.beans.mapper.BeanMapperImpl" >
+		<property name="beanFactory">
+			<bean class="net.freedom.gj.beans.factory.ext.SpringTreeBeanFactory" init-method="init">
+				<property name="objectType" value="net.freedom.gj.beans.config.MapperConfiguration" />
+			</bean>
+		</property>
+	</bean>
+    
+    <!-- Initialize default converters-->
+    <bean id="dateStringConverter" class="net.freedom.gj.beans.converter.DateStringConverter"/>
+    <bean id="toStringConverter" class="net.freedom.gj.beans.converter.ToStringConverter"/>
+    <bean id="nullableToStringConverter" class="net.freedom.gj.beans.converter.NullableToStringConverter"/>
+    <bean id="decimalToStringConverter" class="net.freedom.gj.beans.converter.DecimalToStringConverter"/>
+    <bean id="toUpperCaseConverter" class="net.freedom.gj.beans.converter.ToUpperCaseConverter"/>
+		
+	
+</beans>			
