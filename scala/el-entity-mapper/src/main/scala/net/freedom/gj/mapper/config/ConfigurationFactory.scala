@@ -3,21 +3,19 @@ package net.freedom.gj.mapper.config
 
 import scala.collection.mutable.ListBuffer
 
-trait ConfigurationFactoryTrait[ConfigurationType,ContextType] {
-  def getConfigurations(ctx: ContextType): List[ConfigurationType]
+trait ConfigFactoryTrait[ConfigType,ContextType] {
+  def getConfigurations(ctx: ContextType): List[ConfigType]
 }
 
 
-object SimpleConfigurationFactory extends ConfigurationFactoryTrait[MapperConfigurationTrait,ConfigurationContext] {
-  private val list = new ListBuffer[MapperConfigurationTrait]
+object SimpleConfigFactory extends ConfigFactoryTrait[MapperConfigTrait,ConfigContext] {
+  private val list = new ListBuffer[MapperConfigTrait]
 
-  def add( conf: MapperConfigurationTrait):Unit = {
+  def add( conf: MapperConfigTrait):Unit = {
     list += conf
   }
   
-  def getConfigurations(ctx: ConfigurationContext) : List[MapperConfigurationTrait] = {
-    
+  def getConfigurations(ctx: ConfigContext) : List[MapperConfigTrait] = {    
     list.toList
   }
-
 }
