@@ -3,16 +3,16 @@ package net.freedom.gj.mapper.config
 
 import scala.collection.mutable.HashMap
 
-trait MapperConfigurationTrait {
+trait MapperConfigTrait {
   val converters = new HashMap[String, Converter]
   def getMappingInformation: MappingInformation
 }
 
-trait ConfigurationContext {
+trait ConfigContext {
   def source: Any
   def target: Any
 }
 
 trait Converter {
-   def convert(subject: Any): Any
+   def convert(subject: AnyRef): AnyRef
 }

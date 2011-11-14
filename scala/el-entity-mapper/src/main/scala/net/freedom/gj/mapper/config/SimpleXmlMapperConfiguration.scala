@@ -1,8 +1,8 @@
 package net.freedom.gj.mapper.config
 
-class SimpleXmlMapperConfiguration(val file:String, val source:String,val target:String) 
-                                  extends MapperConfigurationTrait {
-  //var configurationFile: String =_
+class SimpleXmlMapperConfig(val file:String, val source:String,val target:String) 
+                                  extends MapperConfigTrait {
+  
   var mappingInformation: MappingInformation =_
   
   def getMappingInformation(): MappingInformation = {
@@ -10,9 +10,8 @@ class SimpleXmlMapperConfiguration(val file:String, val source:String,val target
     if( mappingInformation != null ){
       return mappingInformation
     }
-
-    mappingInformation = new MappingInformation
-
+    
+    mappingInformation = new MappingInformation(List(new MappingData("name","title"),new MappingData("age","years") ) );
     mappingInformation
   }
 
