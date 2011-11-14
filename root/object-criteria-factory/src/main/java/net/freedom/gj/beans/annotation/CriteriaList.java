@@ -13,29 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.freedom.gj.beans.annotation;
 
-package net.freedom.gj.beans.mapper;
-
-import net.freedom.gj.beans.criteria.MapContext;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
- * This context is used to get applicable MapperConfiguration instances.
- * @author Goutham Gogineni
- * @author Martin Jamszolik
  *
+ * @author Martin Jamszolik
  */
-public class DefaultMapperConfigurationContext extends MapContext implements MapperConfigurationContext {
-
-    
-    public DefaultMapperConfigurationContext(Object... args) {
-		super(args);
-	}
-
-    public Object getSource() {
-       return get("source");
-    }
-
-    public Object getTarget() {
-        return get("target");
-    }
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+public @interface CriteriaList {
+    Criteria[] value();
 }

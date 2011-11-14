@@ -34,7 +34,7 @@ import org.junit.Test;
  */
 
 
-public class MappingTest{
+public class SimpleMappingTest{
 
     
 
@@ -76,7 +76,7 @@ public class MappingTest{
         SimpleXmlMapperConfiguration fileConfig = new SimpleXmlMapperConfiguration();
         fileConfig.setConfigurationFile("/net/freedom/gj/beans/xml/beanA-to-beanB.xml");
         fileConfig.setSourceType("net.freedom.gj.beans.EntityBeanA");
-        fileConfig.setTargetType("net.freedom.gj.beans.EntityBeanB");       
+        fileConfig.setTargetType("net.freedom.gj.beans.EntityBeanB");
 
         //You can use multiple configuration files to map single complex object.
         //Optionally,using text custom format file.
@@ -85,7 +85,7 @@ public class MappingTest{
         additionalConfig.setSourceType("net.freedom.gj.beans.EntityBeanA");
         additionalConfig.setTargetType("net.freedom.gj.beans.EntityBeanB");
 
-        //Simple factory, suitable where no CDI capability available.
+        //Simple factory, where no CDI capability available.
         MapperConfigurationBeanFactory factory = new MapperConfigurationBeanFactory();
         factory.add(fileConfig);
         factory.add(additionalConfig);

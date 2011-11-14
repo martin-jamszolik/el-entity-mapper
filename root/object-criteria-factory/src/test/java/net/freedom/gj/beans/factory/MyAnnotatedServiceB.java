@@ -14,28 +14,26 @@
  * limitations under the License.
  */
 
-package net.freedom.gj.beans.mapper;
+package net.freedom.gj.beans.factory;
 
-import net.freedom.gj.beans.criteria.MapContext;
+import net.freedom.gj.beans.annotation.Criteria;
+import net.freedom.gj.beans.annotation.Matcher;
+import net.freedom.gj.beans.matcher.InstanceOfMatcher;
+import net.freedom.gj.beans.matcher.ToStringValueMatcher;
 
 /**
- * This context is used to get applicable MapperConfiguration instances.
- * @author Goutham Gogineni
- * @author Martin Jamszolik
  *
+ * @author Modest Syla
  */
-public class DefaultMapperConfigurationContext extends MapContext implements MapperConfigurationContext {
 
-    
-    public DefaultMapperConfigurationContext(Object... args) {
-		super(args);
-	}
+@Criteria({
+    @Matcher(property = "payload",matcher = InstanceOfMatcher.class,classValue = Integer.class),
+    @Matcher(property = "switch",matcher = ToStringValueMatcher.class,stringValue = "ON") 
+})
+public class MyAnnotatedServiceB implements MyService{
 
-    public Object getSource() {
-       return get("source");
+    public void execute() {
+        System.out.println("executed annotated Service B with a switch as ON");
     }
 
-    public Object getTarget() {
-        return get("target");
-    }
 }

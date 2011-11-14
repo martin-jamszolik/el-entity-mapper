@@ -45,7 +45,7 @@ public class SimpleXmlMapperConfiguration extends AbstractMapperConfiguration {
             
             SAXParserFactory spf = SAXParserFactory.newInstance();
             SAXParser sp = spf.newSAXParser();
-            sp.parse(stream, new XmlDefultHandler(mappingInformation));
+            sp.parse(stream, new XmlDefaultHandler(mappingInformation));
             stream.close();
         } catch (Exception ex) {
             Lg.log(this, Lg.ERROR, "Error", ex);
@@ -55,14 +55,14 @@ public class SimpleXmlMapperConfiguration extends AbstractMapperConfiguration {
 
     
 
-    class XmlDefultHandler extends DefaultHandler {
+    class XmlDefaultHandler extends DefaultHandler {
 
         private MappingInformation mappingInformation;
 
         private MappingData collectionData;
         private List<PostProcessor> procList;
 
-        public XmlDefultHandler(MappingInformation info) {
+        public XmlDefaultHandler(MappingInformation info) {
             mappingInformation = info;
         }
 

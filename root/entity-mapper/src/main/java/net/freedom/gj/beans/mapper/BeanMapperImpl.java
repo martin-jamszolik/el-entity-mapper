@@ -32,7 +32,7 @@ import javax.el.ValueExpression;
 
 
 import net.freedom.gj.beans.factory.BeanFactory;
-
+import static net.freedom.gj.beans.util.BasicHelper.isSet;
 import net.freedom.gj.beans.config.MapperConfiguration;
 import net.freedom.gj.beans.util.BeanMapperELContext;
 import net.freedom.gj.beans.util.Lg;
@@ -65,12 +65,13 @@ public class BeanMapperImpl implements BeanMapper {
      * @param target Target object.
      * @return Returns target object.
      */
-    public <T> T map(MapperConfigurationContext context) {
+    public <T> T map(Object source, T target) {
         // Get the set of MapperConfiguration's that are applicable
+        MapperConfigurationContext context = new DefaultMapperConfigurationContext("source", source, "target", target);
         Set<MapperConfiguration> configurations = beanFactory.getObjects(context);
 
         // If there are no MapperConfiguration's return the target.
-        if (configurations == null || configurations.isEmpty()) {
+        if ( !isSet(configurations) && configurations.isEmpty()) {
             return (T) context.getTarget();
         }
 
@@ -87,7 +88,7 @@ public class BeanMapperImpl implements BeanMapper {
             }
 
             // Do any post processing if required
-            if (info.getPostProcessors() != null) {
+            if ( isSet(info.getPostProcessors())) {
                 for (PostProcessor processor : info.getPostProcessors()) {
                     processor.process(context.getSource(), context.getTarget());
                 }
@@ -274,9 +275,5 @@ public class BeanMapperImpl implements BeanMapper {
      */
     private int getLength(Object value) {
         return value == null ? 0 : ((value instanceof Collection) ? ((Collection) value).size() : ((Object[]) value).length);
-    }
-
-    public <T> T map(Object source, T target) {
-        return (T) map(new MapConfigurationContext("source", source, "target", target));
     }
 }

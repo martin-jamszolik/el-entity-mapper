@@ -14,28 +14,22 @@
  * limitations under the License.
  */
 
-package net.freedom.gj.beans.mapper;
-
-import net.freedom.gj.beans.criteria.MapContext;
+package net.freedom.gj.beans.matcher;
 
 /**
- * This context is used to get applicable MapperConfiguration instances.
- * @author Goutham Gogineni
- * @author Martin Jamszolik
+ *Use this matcher when logic is generic and you want to run
+ *it for all context and all criteria.
  *
+ * @author Martin Jamszolik
  */
-public class DefaultMapperConfigurationContext extends MapContext implements MapperConfigurationContext {
+public class AlwaysTrueMatcher implements PropertyMatcher{
 
-    
-    public DefaultMapperConfigurationContext(Object... args) {
-		super(args);
-	}
-
-    public Object getSource() {
-       return get("source");
+    public boolean matches(Object value) {
+        return true;
     }
 
-    public Object getTarget() {
-        return get("target");
+    public void setValue(Object matchingValue) {
+        // do nothing
     }
+
 }
