@@ -1,8 +1,8 @@
 
 package net.freedom.gj.mapper.config
 
-class MappingInformation(mappingData:List[MappingData],
-                         postProcessors:List[PostProcessor]=Nil) {     
+class MappingInformation(mappingData:Seq[MappingData],
+                         postProcessors:Seq[PostProcessor]=Nil) {     
   def getData = mappingData;
   def getProcessors = postProcessors;
 }
@@ -12,7 +12,7 @@ class MappingInformation(mappingData:List[MappingData],
 case class MappingData(source:String,
                        target:String,
                        converter:Converter = null,
-                       collection:List[MappingData] = Nil,
+                       collection:Seq[MappingData] = Nil,
                        objType:String= null) {  
 }
 

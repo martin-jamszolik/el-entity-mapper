@@ -38,10 +38,10 @@ class EntityMapperImpl(val configFactory: ConfigFactoryTrait[MapperConfigTrait,C
                                              java.lang.Class.forName("java.lang.Object")).getValue(elContext)
     
       // Create target if it is null
-      createTargetObject(item, elContext, value);
+      createTargetObject(item, elContext, value)
     
       // If the target is Array or Collection, loop through the collection
-      if (item.collection != null && !item.collection.isEmpty ) {
+      if ( !item.collection.isEmpty ) {
         mapCollection(item, elContext, value)
         return
       }
