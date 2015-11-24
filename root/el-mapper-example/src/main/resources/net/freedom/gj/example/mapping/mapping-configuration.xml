@@ -13,10 +13,9 @@
     <context:component-scan base-package="net.freedom.gj.example"/>
 
    <import resource="classpath:net/freedom/gj/beans/spring/bean-mapper-config.xml" />
-   <import resource="mapping-converters.xml"/>
 
-    <bean class="net.freedom.gj.beans.config.SpringXmlMapperConfiguration"
-            p:configurationFile="net/freedom/gj/example/mapping/Employee-to-EmployeeJPAEntity.xml"
+    <bean class="net.freedom.gj.beans.config.SimpleXmlMapperConfiguration"
+            p:configurationFile="/net/freedom/gj/example/mapping/simple-pojo-to-jpa.xml"
             p:sourceType="net.freedom.gj.example.pojo.Employee"
             p:targetType="net.freedom.gj.example.jpa.EmployeeEntity" />
 

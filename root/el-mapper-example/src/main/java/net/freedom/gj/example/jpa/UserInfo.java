@@ -261,5 +261,10 @@ public class UserInfo implements Serializable {
 		this.nametype = nametype;
 	}
 
+    @Override
+    public String toString() {
+        return "UserInfo{" + "userid=" + userid + '}';
+    }
+
 	
 }

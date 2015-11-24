@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping>
+    <bind source="id"  target="pkid"/>
+    <bind source="userid"  target="userid.userid"/>
+    <bind source="loginid"  target="userid.loginid"/>
+    <bind source="companyid"  target="userid.companyid"/>
+    <bind source="agencyId"  target="userid.insagencyid"/>
+    <bind source="lastName"  target="userid.lastname"/>
+    <bind source="lastName"  target="userid.ulastname" converter="net.freedom.gj.beans.converter.ToUpperCaseConverter"/>
+    <bind source="firstName"  target="userid.firstname"/>
+    <bind source="firstName"  target="userid.ufirstname" converter="net.freedom.gj.beans.converter.ToUpperCaseConverter"/>
+    <bind source="middle"  target="userid.middlename"/>
+    <bind source="suffix"  target="userid.suffixname"/>
+    <bind source="email"  target="userid.email"/>
+    <bind source="status"  target="userid.status"/>
+    <bind source="password"  target="userid.pwd"/>
+    <bind source="password"  target="userid.changepwd"/>
+    <bind source="active"  target="isactive"  converter="net.freedom.gj.example.converter.BooleanTo01Converter"/>        
+    <bind source="updatedby"  target="updatedby"/>
+    <bind source="updateddate"  target="updateddate"/>
+    <bind source="updatedby"  target="userid.updatedby"/>
+    <bind source="suffix"  target="userid.suffixname"/>
+        
+
+    <bind source="address.addressid"  target="address.addressid"/>
+    <bind source="address.addressZip"  target="address.addresszip"/>
+    <bind source="address.addressState"  target="address.addressstate"/>
+    <bind source="address.address1"  target="address.address1"/>
+    <bind source="address.address2"  target="address.address2"/>
+    <bind source="address.address3"  target="address.address3"/>
+    <bind source="address.addressCity"  target="address.addresscity"/>
+    <bind source="address.createdBy"  target="address.createdby"/>
+    <bind source="address.createdDate"  target="address.createddate"/>
+    <bind source="address.updatedBy"  target="address.updatedby"/>
+    <bind source="address.updatedDate"  target="address.updateddate"/>
+
+    <!-- Ability to map collection of objects -->
+    <collection  source="groups"  target="userid.groups" type="net.freedom.gj.example.jpa.GroupEntity">
+        <bind source="name" target="groupName" />
+    </collection>
+</mapping>
