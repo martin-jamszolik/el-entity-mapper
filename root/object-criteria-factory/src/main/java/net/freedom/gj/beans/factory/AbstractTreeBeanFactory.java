@@ -37,20 +37,25 @@ import net.freedom.gj.beans.matcher.PropertyMatcher;
  * affected.
  * @author Goutham Gogineni
  * @author Martin Jamszolik 
+ * @param <BeanType> Bean Class definition
+ * @param <DataType> Criteria context
  * 
  */
 public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements BeanFactory<BeanType, DataType> {
 
-    private String beanType = null;
+    private Class<?>  beanClass = null;
     private BeanTreeNode<BeanType> rootNode = null;
 
-    public void setObjectType(String objectType) {
-        this.beanType = objectType;
+    public void setObjectType(String objectType) throws ClassNotFoundException {
+        setObjectClass( Class.forName(objectType) );
+    }
+    public void setObjectClass(Class<?> beanClass){
+        this.beanClass= beanClass;
     }
 
     public void init() throws Exception {
-        Class type = Class.forName(beanType);
-        List<Object> result = findAllByType(type);
+        
+        List<Object> result = findAllByType(beanClass);
         for (Object bean : result) {
             addObject(bean);
         }

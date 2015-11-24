@@ -12,8 +12,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
+                    <source>1.6</source>
+                    <target>1.6</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin> 
@@ -76,13 +76,15 @@
         <dependency>
             <groupId>com.google.inject</groupId>
             <artifactId>guice</artifactId>
-            <version>2.0</version>
+            <version>4.0</version>
             <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>3.0.5.RELEASE</version>
+            <version>4.2.2.RELEASE</version>
+            <scope>provided</scope>
             <optional>true</optional>
         </dependency>
         
@@ -94,7 +96,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.8.2</version>
+            <version>4.12</version>
             <scope>test</scope>
         </dependency>
         
@@ -102,7 +104,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <scope>test</scope>
-            <version>3.0.5.RELEASE</version>
+            <version>4.2.2.RELEASE</version>
             <exclusions>
                 <exclusion>
                     <artifactId>commons-logging</artifactId>
@@ -115,7 +117,7 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <scope>test</scope>
-            <version>3.0.5.RELEASE</version>            
+            <version>4.2.2.RELEASE</version>            
         </dependency>
         <dependency>
             <groupId>com.googlecode.junice</groupId>

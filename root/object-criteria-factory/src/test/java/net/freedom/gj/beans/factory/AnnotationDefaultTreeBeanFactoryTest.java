@@ -48,7 +48,7 @@ public class AnnotationDefaultTreeBeanFactoryTest {
         
         System.out.println("Beans Registered");
         DefaultTreeBeanFactory<MyService,Object> instance = new DefaultTreeBeanFactory<MyService,Object>();
-        instance.setObjectType("net.freedom.gj.beans.factory.MyService");
+        instance.setObjectClass(net.freedom.gj.beans.factory.MyService.class);
         instance.register(d,e,c);
         
         instance.init();
