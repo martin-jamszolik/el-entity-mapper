@@ -7,12 +7,6 @@ pipeline {
   }
   stages {
     stage('BUILD') {
-      agent {
-        docker {
-          image 'maven:3-alpine'
-        }
-
-      }
       steps {
         script {
           echo 'Skipping DEV Restore'
