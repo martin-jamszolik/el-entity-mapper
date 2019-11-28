@@ -13,7 +13,7 @@ pipeline {
         }
 
         script {
-          sh "mvn clean install -f root/object-criteria-factor/pom.xml"
+          sh "mvn clean install -f root/object-criteria-factory/pom.xml"
         }
 
       }
