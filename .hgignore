@@ -1,12 +1,17 @@
+.classpath$
+.project$
+\.iml$
+\.ipr$
+\.iws$
 \.orig$
 \.orig\..*$
 \.chg\..*$
 \.rej$
+.scala_dependencies
 \.conflict\~$
-target
-\.classpath$
-\.project$
-\.settings
-\.iml$
-\.ipr$
-\.iws$
+/target$
+/.settings$
+
+syntax: glob
+nb-*.xml
+
