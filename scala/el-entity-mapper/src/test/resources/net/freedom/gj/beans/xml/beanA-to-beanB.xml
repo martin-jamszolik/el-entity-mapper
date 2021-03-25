@@ -7,6 +7,6 @@
         <bind source="rank" target="rank" />
     </collection>    
     <post-processors>
-        <processor value="net.freedom.gj.mapper.ReportResultPostProcessor" />
+        <processor value="samples.ReportResultPostProcessor" />
     </post-processors>   
 </mapping>

@@ -12,23 +12,23 @@ class EntityMapperImpl(val configFactory: ConfigFactoryTrait[MapperConfigTrait,C
 
   private val expr = ExpressionFactory.newInstance();  
 
-  def map[T](source:AnyRef, target:T ):T = {
+  def map[T](src:AnyRef, trg:T ):T = {
 
     val configurations = configFactory.getConfigurations(
-      new ConfigContext {def source = source; def target = target}   )
+      new ConfigContext {def source() = src; def target() = trg}   )
             
     // Get EL context with source and target objects configured
-    val elContext = getElContext(source, target)
+    val elContext = getElContext(src, trg)
     
     for(config <- configurations) {
       val info = config.getMappingInformation
-      info.getData.foreach(item => mapData(item,elContext,source.getClass) )
+      info.getData.foreach(item => mapData(item,elContext,src.getClass) )
       
       if( info.getProcessors != null )
-        info.getProcessors.foreach(processor => processor.process(source, target))
+        info.getProcessors.foreach(processor => processor.process(src, trg))
     }
     
-    return target;
+    return trg;
   }
   
   

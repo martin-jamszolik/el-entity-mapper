@@ -18,7 +18,7 @@ class SimpleXmlMapperConfig
     val doc = parser.document()
     
     var list:ArrayBuffer[MappingData] = new ArrayBuffer();
-    for(val element <- doc \ "bind") {      
+    for( element <- doc \ "bind") {      
       list += getBindData(element)
     }    
     for( element <- doc \ "collection"){
