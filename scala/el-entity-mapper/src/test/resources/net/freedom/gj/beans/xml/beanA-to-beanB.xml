@@ -1,12 +1,12 @@
 <mapping>
-    <bind source="name" target="title" converter="net.freedom.gj.beans.converter.ToStringConverter" />
-    <bind source="desc" target="description" />
-    <bind source="age" target="years" />
-    <collection source="groups" target="entityGroups" type="net.freedom.gj.beans.GroupEntity" >
-        <bind source="name" target="groupName" />
-        <bind source="rank" target="rank" />
-    </collection>    
+    <bind source="name" target="title" converter="net.freedom.gj.mapper.config.ToStringConverter"/>
+    <bind source="desc" target="description"/>
+    <bind source="age" target="years"/>
+    <collection source="groups" target="entityGroups" type="net.freedom.gj.beans.GroupEntity">
+        <bind source="name" target="groupName"/>
+        <bind source="rank" target="rank"/>
+    </collection>
     <post-processors>
-        <processor value="samples.ReportResultPostProcessor" />
-    </post-processors>   
+        <processor value="samples.ReportResultPostProcessor"/>
+    </post-processors>
 </mapping>
