@@ -1,0 +1,7 @@
+source="myDate" target="extension.myDate" converter="org.viablespark.mapper.converter.ToStringConverter"
+source="name" target="extension.myName"
+[ source="groups" target="entityGroups" type="org.viablespark.mapper.GroupEntity"
+    source="name" target="groupName"
+    source="rank" target="rank"
+]
+source="value" target="extension.myMoney"
