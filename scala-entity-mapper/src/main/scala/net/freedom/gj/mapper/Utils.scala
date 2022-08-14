@@ -24,7 +24,7 @@ class BeanMapperELContext extends ELContext {
       }
     }
   }
-  val functionMapper = new FunctionMapper() {
+  val functionMapper: FunctionMapper = new FunctionMapper() {
     def resolveFunction(prefix: String, localName: String): Method = {
       throw new UnsupportedOperationException("Function Not supported yet.")
     }

@@ -12,7 +12,7 @@ import scala.collection.mutable._
 class AppTest {
 
   @Test
-  def testMapper() = {
+  def testMapper(): Unit = {
 
     val entityMapper = getEntityMapper()
 

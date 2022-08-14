@@ -1,10 +1,10 @@
 package net.freedom.gj.mapper.config
 
 
-import scala.collection.mutable.HashMap
+import scala.collection.mutable
 
 trait MapperConfigTrait {
-  val converters = new HashMap[String, Converter]
+  val converters = new mutable.HashMap[String, Converter]
 
   def getMappingInformation: MappingInformation
 

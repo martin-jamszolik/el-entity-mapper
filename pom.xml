@@ -13,7 +13,7 @@
         <module>object-criteria-factory</module>
         <module>entity-mapper-demo</module>
         <module>java-entity-mapper</module>
-        <!--module>scala-entity-mapper</module-->
+        <module>scala-entity-mapper</module>
     </modules>
     <build>        
         <pluginManagement>
@@ -73,15 +73,15 @@
     </dependencies>
     
     <properties>
-        <maven.test.skip>true</maven.test.skip>
+        <maven.test.skip>false</maven.test.skip>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
     <profiles>
         <profile>
-            <id>allow-tests</id>
+            <id>skip-tests</id>
             <properties>
-                <maven.test.skip>false</maven.test.skip>
+                <maven.test.skip>true</maven.test.skip>
             </properties>
         
         </profile>
