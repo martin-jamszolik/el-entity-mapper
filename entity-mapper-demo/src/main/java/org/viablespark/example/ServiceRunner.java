@@ -19,8 +19,8 @@ package org.viablespark.example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.viablespark.example.pojo.Employee;
 import org.viablespark.example.service.EmployeeService;
-import org.viablespark.example.ui.EmployeeView;
 import org.springframework.stereotype.Component;
+import org.viablespark.example.ui.DemoFrame;
 
 /**
  *
@@ -33,7 +33,7 @@ public class ServiceRunner {
     private EmployeeService service;
 
     @Autowired
-    private EmployeeView ui;
+    private DemoFrame ui;
 
     public void runService(){
         Employee emp = Util.generateEmployee();

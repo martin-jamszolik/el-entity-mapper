@@ -17,10 +17,7 @@ package org.viablespark.example;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.UIManager;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.viablespark.example.ui.EmployeeView;
-import org.springframework.context.support.AbstractApplicationContext;
 
 /**
  *
@@ -30,9 +27,14 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            //UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
         } catch (Exception ex) {
-            Logger.getLogger(EmployeeView.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
         System.out.println("Welcome to EL entity mapper demo.\n");
 
