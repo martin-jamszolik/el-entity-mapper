@@ -1,0 +1,7 @@
+source="address.line1" target="myAddress.address1"
+source="address.line2" target="myAddress.address2"
+source="address.line3" target="myAddress.address3"
+source="address.city" target="myAddress.addresscity"
+source="address.state" target="myAddress.addressstate"
+source="address.zip" target="myAddress.addresszip"
+post-process="org.viablespark.mapper.ReportResultPostProcessor"
