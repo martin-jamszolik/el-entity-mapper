@@ -16,10 +16,6 @@
 package org.viablespark.criteria;
 
 import java.util.List;
-import org.viablespark.criteria.BeanCriteria;
-import org.viablespark.criteria.CriteriaBuilder;
-import org.viablespark.criteria.PropertyBuilder;
-import org.viablespark.criteria.PropertyCriteria;
 import org.viablespark.criteria.matcher.InstanceOfMatcher;
 import org.viablespark.criteria.matcher.PropertyValueEqualsMatcher;
 
@@ -27,18 +23,18 @@ import org.viablespark.criteria.matcher.PropertyValueEqualsMatcher;
  *
  * @author martin
  */
-public class MyServiceB implements MyService,BeanCriteria{
+public class MyServiceB implements MyService, BeanCriteria {
 
     public void execute() {
         System.out.println("executed B with a switch as ON");
     }
-    
-    
-     public List<PropertyCriteria> getCriteria() {
-        return new CriteriaBuilder().build( new PropertyBuilder()
-                                        .build("payload", new InstanceOfMatcher(Integer.class))
-                                        .build("switch", new PropertyValueEqualsMatcher("ON")))
-                                    .getCriteria();
+
+    public List<PropertyCriteria> getCriteria() {
+        return new CriteriaBuilder()
+                .build(new PropertyBuilder()
+                        .build("payload", new InstanceOfMatcher(Integer.class))
+                        .build("switch", new PropertyValueEqualsMatcher("ON")))
+                .getCriteria();
     }
-    
+
 }
