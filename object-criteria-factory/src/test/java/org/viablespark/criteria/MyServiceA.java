@@ -17,24 +17,20 @@ package org.viablespark.criteria;
 
 import java.util.List;
 
-import org.viablespark.criteria.annotation.Criteria;
-import org.viablespark.criteria.BeanCriteria;
-import org.viablespark.criteria.CriteriaBuilder;
-import org.viablespark.criteria.PropertyCriteria;
 import org.viablespark.criteria.matcher.InstanceOfMatcher;
 
 /**
  *
  * @author martin
  */
-public class MyServiceA implements MyService, BeanCriteria{
+public class MyServiceA implements MyService, BeanCriteria {
 
     public void execute() {
         System.out.println("executed A");
     }
 
     public List<PropertyCriteria> getCriteria() {
-        return new CriteriaBuilder().build("payload", new InstanceOfMatcher(String.class) ).getCriteria();
+        return new CriteriaBuilder().build("payload", new InstanceOfMatcher(String.class)).getCriteria();
     }
-    
+
 }
