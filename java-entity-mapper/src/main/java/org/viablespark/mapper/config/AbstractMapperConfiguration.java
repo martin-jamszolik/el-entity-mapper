@@ -34,31 +34,28 @@ public abstract class AbstractMapperConfiguration implements MapperConfiguration
 
     protected String configurationFile;
     protected MappingInformation mappingInformation;
-    protected Class sourceType;
-    protected Class targetType;
-    protected Map<String, Converter> converters = new HashMap<String, Converter>(4);
+    protected Class<?> sourceType;
+    protected Class<?> targetType;
+    protected Map<String, Converter> converters = new HashMap<>(4);
 
-    public String getConfigurationFile() {
-        return configurationFile;
-    }
 
     public void setConfigurationFile(String configurationFile) {
         this.configurationFile = configurationFile;
     }
 
-    public void setSourceType(Class sourceType) {
+    public void setSourceType(Class<?> sourceType) {
         this.sourceType = sourceType;
     }
 
-    public void setTargetType(Class targetType) {
+    public void setTargetType(Class<?> targetType) {
         this.targetType = targetType;
     }
 
-    public Class getSourceType() {
+    public Class<?> getSourceType() {
         return sourceType;
     }
 
-    public Class getTargetType() {
+    public Class<?> getTargetType() {
         return targetType;
     }
     
@@ -73,7 +70,8 @@ public abstract class AbstractMapperConfiguration implements MapperConfiguration
             return converters.get(className);
         }
         try {
-            converters.put(className, (Converter) (Class.forName(className)).newInstance());
+            var converter = Class.forName(className).getConstructor().newInstance();
+            converters.put(className, (Converter)converter);
             return converters.get(className);
         } catch (Exception ex) {
             return null;

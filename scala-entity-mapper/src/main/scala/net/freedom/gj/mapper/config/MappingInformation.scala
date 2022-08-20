@@ -3,7 +3,7 @@ package net.freedom.gj.mapper.config
 
 import scala.collection.mutable._
 
-class MappingInformation(mappingData: Seq[MappingData],
+  class MappingInformation(mappingData: Seq[MappingData],
                          postProcessors: Seq[PostProcessor]) {
   def getData = mappingData;
 
@@ -20,5 +20,5 @@ case class MappingData(source: String,
 
 
 trait PostProcessor {
-  def process(source: Any, target: Any): Unit
+  def process(source: AnyRef, target: AnyRef): Unit
 }

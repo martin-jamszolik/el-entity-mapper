@@ -6,7 +6,7 @@ import scala.xml.NodeSeq
 import scala.xml.parsing.ConstructingParser
 
 class SimpleXmlMapperConfig
-(val file: String, val sourceType: String, val targetType: String) extends MapperConfigTrait {
+(val file: String, val sourceType: Class[_], val targetType: Class[_]) extends MapperConfigTrait {
 
   lazy val mi: MappingInformation = parse()
 

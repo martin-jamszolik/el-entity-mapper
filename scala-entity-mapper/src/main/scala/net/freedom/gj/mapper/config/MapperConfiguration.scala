@@ -6,6 +6,9 @@ import scala.collection.mutable
 trait MapperConfigTrait {
   val converters = new mutable.HashMap[String, Converter]
 
+  val sourceType:Class[_]
+  val targetType:Class[_]
+
   def getMappingInformation: MappingInformation
 
   protected def getConverter(name: String): Option[Converter] = {
@@ -25,8 +28,7 @@ trait MapperConfigTrait {
 }
 
 trait ConfigContext {
-  def source: Any
-
-  def target: Any
+  def source: AnyRef
+  def target: AnyRef
 }
 

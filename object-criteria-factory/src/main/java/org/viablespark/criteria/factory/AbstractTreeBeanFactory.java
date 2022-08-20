@@ -40,7 +40,7 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements BeanFactory<BeanType, DataType> {
 
-    private Class<BeanType> beanClass = null;
+    protected Class<BeanType> beanClass = null;
     private BeanTreeNode<BeanType> rootNode = null;
 
     @SuppressWarnings("unchecked")
@@ -48,17 +48,14 @@ public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements Bea
         setObjectClass( (Class<BeanType>) Class.forName(objectType));
     }
     
-    @SuppressWarnings("unchecked")
+
     public void setObjectClass(Class<BeanType> beanClass) {
         this.beanClass = beanClass;
     }
 
-    public void init() throws Exception { 
-
+    public void init() {
         List<BeanType> result = findAllByType(beanClass);
-        result.forEach(bean -> {
-            addObject(bean);
-        });
+        result.forEach(this::addObject);
     }
 
     protected abstract List<BeanType> findAllByType(Class<BeanType> type);
@@ -75,7 +72,7 @@ public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements Bea
         if (criteriaList != null) {
             for (PropertyCriteria propertyCriteria : criteriaList) {
                 List<PropertyCriterion> criteria = new ArrayList<>(propertyCriteria.getCriteria());
-                Collections.sort(criteria, new PropertyCriterionComparator());
+                criteria.sort(new PropertyCriterionComparator());
                 addObject(rootNode, criteria, object);
             }
         }
@@ -102,7 +99,6 @@ public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements Bea
         if (result == null) {
             return Collections.emptySet();
         }
-
         return result;
     }
 
@@ -157,7 +153,6 @@ public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements Bea
                 }
             }
         }
-
         return objects;
     }
 
@@ -168,7 +163,6 @@ public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements Bea
      * that has been implemented based of extending BeanCriteria interface.
      * Otherwise, return null.
      *
-     * @param object
      * @return List of PropertyCriteria - either built through annotation or
      * retrieved from concrete class. Null otherwise.
      */
@@ -214,7 +208,7 @@ public abstract class AbstractTreeBeanFactory<BeanType, DataType> implements Bea
         return null;
     }
 
-    class BeanTreeNode<T> {
+    static class BeanTreeNode<T> {
 
         private PropertyCriterion criterion;
         private Set<T> objects;

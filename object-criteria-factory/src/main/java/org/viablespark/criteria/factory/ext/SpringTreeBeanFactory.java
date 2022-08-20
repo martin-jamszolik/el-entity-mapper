@@ -32,7 +32,7 @@ import org.springframework.beans.factory.ListableBeanFactory;
 
 public class SpringTreeBeanFactory<BeanType, DataType> extends AbstractTreeBeanFactory<BeanType, DataType> {
 
-    private ListableBeanFactory beanFactory;
+    private final ListableBeanFactory beanFactory;
 
     public SpringTreeBeanFactory(ListableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;

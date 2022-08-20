@@ -38,11 +38,13 @@ public class DefaultTreeBeanFactory<BeanType, DataType> extends AbstractTreeBean
     
     @SafeVarargs
     public final void register( final BeanType... items ){
-        Arrays.stream(items).forEach( item -> beans.add(item));
+        assert beanClass != null;
+        beans.addAll(Arrays.asList(items));
+        init();
     }    
     
     @Override
-    protected List<BeanType> findAllByType(Class type) {
+    protected List<BeanType> findAllByType(Class<BeanType> type) {
         List<BeanType> list = new ArrayList<>();
         for( BeanType b: beans){
             if( b.getClass().isAnnotationPresent(Criteria.class)

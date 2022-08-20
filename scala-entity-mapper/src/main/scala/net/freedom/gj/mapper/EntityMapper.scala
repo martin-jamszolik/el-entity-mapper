@@ -16,9 +16,8 @@ class EntityMapperImpl(val configFactory: ConfigFactoryTrait[MapperConfigTrait, 
 
     val configurations = configFactory.getConfigurations(
       new ConfigContext {
-        def source = src;
-
-        def target = trg
+        def source: AnyRef = src;
+        def target: AnyRef = trg.asInstanceOf[AnyRef]
       })
 
     // Get EL context with source and target objects configured
@@ -29,23 +28,22 @@ class EntityMapperImpl(val configFactory: ConfigFactoryTrait[MapperConfigTrait, 
       info.getData.foreach(item => mapData(item, elContext, src.getClass))
 
       if (info.getProcessors != null)
-        info.getProcessors.foreach(processor => processor.process(src, trg))
+        info.getProcessors.foreach(processor => processor.process(src, trg.asInstanceOf[AnyRef]))
     }
-
-    return trg;
+    trg
   }
 
 
   private def mapData(item: MappingData, elContext: ELContext, srcClass: Class[_]): Unit = {
     try {
       var value = expr.createValueExpression(elContext, "${source." + item.source + "}",
-        java.lang.Class.forName("java.lang.Object")).getValue(elContext)
+        classOf[AnyRef]).getValue(elContext)
 
       // Create target if it is null
       createTargetObject(item, elContext, value)
 
       // If the target is Array or Collection, loop through the collection
-      if (!item.collection.isEmpty) {
+      if (item.collection.nonEmpty) {
         mapCollection(item, elContext, value)
         return
       }
@@ -56,18 +54,19 @@ class EntityMapperImpl(val configFactory: ConfigFactoryTrait[MapperConfigTrait, 
       }
 
       //Copy source value to target
-      expr.createValueExpression(elContext, "${target." + item.target + "}", value.getClass).setValue(elContext, value)
+      expr.createValueExpression(elContext, "${target." + item.target + "}", value.getClass)
+        .setValue(elContext, value)
     } catch {
       case e: Exception => println("Map data Error:" + e.getMessage); throw e;
     }
 
   }
 
-  private def mapCollection(item: MappingData, elCtx: ELContext, value: AnyRef) = {
+  private def mapCollection(item: MappingData, elCtx: ELContext, value: AnyRef): Unit = {
 
   }
 
-  private def createTargetObject(item: MappingData, elCtx: ELContext, value: AnyRef) = {
+  private def createTargetObject(item: MappingData, elCtx: ELContext, value: AnyRef): Unit = {
 
   }
 
