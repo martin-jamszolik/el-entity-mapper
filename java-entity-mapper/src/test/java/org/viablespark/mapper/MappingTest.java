@@ -23,7 +23,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
-import org.viablespark.mapper.config.MapperConfigurationFactory;
+import org.viablespark.criteria.factory.DefaultTreeBeanFactory;
+import org.viablespark.mapper.config.MapperConfiguration;
 import org.viablespark.mapper.config.SimpleFileMapperConfiguration;
 import org.viablespark.mapper.config.SimpleXmlMapperConfiguration;
 
@@ -45,7 +46,7 @@ public class MappingTest{
         EntityBeanA b1 = new EntityBeanA();
         b1.setMyDate(new Date());
         b1.setName("Testing Name Property");
-        List<Group> groups = new ArrayList<Group>();
+        List<Group> groups = new ArrayList<>();
         groups.add(new Group("EMPLOYEE",21));
         groups.add(new Group("EMPADMIN",1));
         b1.setGroups(groups);
@@ -60,7 +61,7 @@ public class MappingTest{
         EntityBeanB b2 = mapper.map(b1, new EntityBeanB());
 
         // Assert for correctness
-        assertEquals(b1.getMyDate().toString(), (String)b2.getExtension().get("myDate") );
+        assertEquals(b1.getMyDate().toString(),b2.getExtension().get("myDate") );
         assertEquals(b1.getName(), b2.getExtension().get("myName") );
         assertNotNull(b2.getEntityGroups());
         assertEquals(b2.getEntityGroups().size(), b1.getGroups().size() );
@@ -85,10 +86,9 @@ public class MappingTest{
         additionalConfig.setSourceType(EntityBeanA.class);
         additionalConfig.setTargetType(EntityBeanB.class);  
 
-        //Simple factory, suitable where no CDI capability available.
-        MapperConfigurationFactory factory = new MapperConfigurationFactory();
-        factory.add(fileConfig);
-        factory.add(additionalConfig);
+        DefaultTreeBeanFactory<MapperConfiguration,MapperConfigurationContext> factory = new DefaultTreeBeanFactory<>();
+        factory.setObjectClass(MapperConfiguration.class);
+        factory.register(fileConfig,additionalConfig);
 
         BeanMapperImpl beanMapper = new BeanMapperImpl();
         beanMapper.setBeanFactory(factory);

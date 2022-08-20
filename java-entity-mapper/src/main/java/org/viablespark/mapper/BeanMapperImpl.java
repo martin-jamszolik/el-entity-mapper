@@ -53,7 +53,7 @@ public class BeanMapperImpl implements BeanMapper {
     /**
      * EL ExpressionFactory instance.
      */
-    private ExpressionFactory expr = ExpressionFactory.newInstance();
+    private final ExpressionFactory expr = ExpressionFactory.newInstance();
 
     public void setBeanFactory(
             BeanFactory<MapperConfiguration, MapperConfigurationContext> beanFactory) {
@@ -63,7 +63,6 @@ public class BeanMapperImpl implements BeanMapper {
     /**
      * Copies data from source object to target object.
      *
-     * @param <T>
      * @param source Source object.
      * @param target Target object.
      * @return Returns target object.
@@ -76,7 +75,7 @@ public class BeanMapperImpl implements BeanMapper {
 
         // If there are no MapperConfiguration's return the target.
         if (!isSet(configurations) && configurations.isEmpty()) {
-            return (T)context.getTarget();
+            return target;
         }
 
         // Get EL context with source and target objects configured 
@@ -99,7 +98,7 @@ public class BeanMapperImpl implements BeanMapper {
             }
         }
 
-        return (T)context.getTarget();
+        return target;
     }
 
     /**
@@ -167,7 +166,7 @@ public class BeanMapperImpl implements BeanMapper {
      * handles Arrays and Lists. Support for Set has to be added.
      */
     private void map(MappingData mappingData, ELContext context, Object value) {
-        MappingData clonedMappingData = null;
+        MappingData clonedMappingData;
         for (int i = 0; i < getLength(value); i++) {
             if (mappingData.getCollectionMappingData() == null || mappingData.getCollectionMappingData().isEmpty()) {
                 map(new MappingData(mappingData.getSourceExpression() + "[" + i + "]", mappingData.getTargetExpression() + "[" + i + "]", mappingData.getConverter()), context);
@@ -194,26 +193,24 @@ public class BeanMapperImpl implements BeanMapper {
     /**
      * Creates objects if the objects in the expression are null.
      *
-     * @param wholeExpression EL expression of object structure.
+     * @param mappingData mapping Information used to construct EL
      * @param context ELContext instance.
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     * @throws ClassNotFoundException
+     * @param sourceValue the source of data
      */
-    private void createTargetObject(MappingData mappingData, ELContext context, Object sourceValue) throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+    private void createTargetObject(MappingData mappingData, ELContext context, Object sourceValue) throws Exception {
         // Getting individual object expressions
         String wholeExpression = "target." + mappingData.getTargetExpression();
-        String expressions[] = wholeExpression.split("\\.");
+        String[] expressions = wholeExpression.split("\\.");
 
         // The base and last object are not created. All other objects are created if they are null. 
         if ((mappingData.isArray() || mappingData.isCollection()) ? expressions.length < 2 : expressions.length < 3) {
             return;
         }
 
-        Class<?> type = Object.class;
+        Class<?> type;
         String expression = null;
-        ValueExpression valueExpression = null;
-        Object value = null;
+        ValueExpression valueExpression;
+        Object value;
 
         // For each object
         for (int i = 0; i < ((mappingData.isArray() || mappingData.isCollection()) ? expressions.length : expressions.length - 1); i++) {
@@ -238,15 +235,15 @@ public class BeanMapperImpl implements BeanMapper {
                     if (type.equals(Map.class)) { // If it is a Map, create HashMap
                         valueExpression.setValue(context, new HashMap<String, Object>());
                     } else if (type.equals(List.class)) { // If it is List, create ArrayList and populate dummy data to prevent ArrayIndexOutOfBound exception.
-                        List<Object> list = new ArrayList<Object>();
+                        List<Object> list = new ArrayList<>();
                         valueExpression.setValue(context, list);
                         for (int j = 0; j < getLength(sourceValue); j++) {
                             list.add(newInstance(Class.forName(mappingData.getCollectionObjectType()), null));
                         }
                     } else if (type.equals(Set.class)) { // If it is Set, create HashSet 
-                        valueExpression.setValue(context, new HashSet<Object>());
+                        valueExpression.setValue(context, new HashSet<>());
                     } else if (type.equals(SortedSet.class)) { // If it is SortedSet, create TreeSet
-                        valueExpression.setValue(context, new TreeSet<Object>());
+                        valueExpression.setValue(context, new TreeSet<>());
                     } else {
                         throw new InstantiationException("Could not identify the implementation of " + type);
                     }
@@ -266,15 +263,12 @@ public class BeanMapperImpl implements BeanMapper {
      * @param type Class type
      * @param value Source value
      * @return Returns an instance of type
-     * @throws IllegalAccessException
-     * @throws InstantiationException
      */
-    private Object newInstance(Class<?> type, Object value) throws IllegalAccessException, InstantiationException {
+    private Object newInstance(Class<?> type, Object value) throws Exception {
         if (type.isArray()) {
             return Array.newInstance(type.getComponentType(), getLength(value));
         }
-
-        return type.newInstance();
+        return type.getDeclaredConstructor().newInstance();
     }
 
     /**
@@ -284,6 +278,6 @@ public class BeanMapperImpl implements BeanMapper {
      * @return Returns size of Collection or length of Array object
      */
     private int getLength(Object value) {
-        return value == null ? 0 : ((value instanceof Collection) ? ((Collection) value).size() : ((Object[]) value).length);
+        return value == null ? 0 : ((value instanceof Collection) ? ((Collection<?>) value).size() : ((Object[]) value).length);
     }
 }
