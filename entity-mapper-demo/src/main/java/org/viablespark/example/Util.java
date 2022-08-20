@@ -81,7 +81,7 @@ public class Util {
         e.setUpdateddate(new Date());
         e.setUserid("2343243243242342343242324");
         e.setSuffix("suffix");
-        List<Group> groups = new ArrayList<Group>();
+        List<Group> groups = new ArrayList<>();
         groups.add(new Group("EMPLOYEE"));
         groups.add(new Group("EMPADMIN"));
 
@@ -100,7 +100,7 @@ public class Util {
 
     }
 
-    public static void invokeSetter(Object setterOwner, Method method, Object value) throws Exception {
+    public static void invokeSetter(Object setterOwner, Method method, Object value)  {
         try {
 
             method.invoke(setterOwner, value);
@@ -112,15 +112,16 @@ public class Util {
     }
 
     public static List<Method> getGetterMethods(Class<?> clazz) {
-        List<Method> allMethods = new ArrayList<Method>();
+        List<Method> allMethods = new ArrayList<>();
         do {
             try {
                 allMethods.addAll(Arrays.asList(clazz.getDeclaredMethods()));
             } catch (Exception e) {
+                e.printStackTrace();
             }
-        } while ((clazz = clazz.getSuperclass()).getPackage().getName().startsWith("net.freedom.gj.example"));
+        } while ((clazz = clazz.getSuperclass()).getPackage().getName().startsWith("org.viablespark.example"));
 
-        List<Method> getterMethods = new ArrayList<Method>();
+        List<Method> getterMethods = new ArrayList<>();
         for (Method m : allMethods) {
             if (m.getName().startsWith("get")) {
                 getterMethods.add(m);

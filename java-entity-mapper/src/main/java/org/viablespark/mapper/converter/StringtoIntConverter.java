@@ -19,21 +19,17 @@ package org.viablespark.mapper.converter;
 public class StringtoIntConverter implements Converter {
 
     public Object convert(Object object) {
-
-
         if (object == null) {
-            return new Integer(0);
+            return 0;
         }
 
-        if (object instanceof String == false) {
+        if (!(object instanceof String)) {
             throw new IllegalArgumentException("Converter is expecting instance of String");
         }
 
         if (((String) object).length() == 0) {
             return 0;
         }
-
-
-        return Integer.valueOf((String) object).intValue();
+        return Integer.valueOf((String) object);
     }
 }

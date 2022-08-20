@@ -19,6 +19,7 @@ import org.viablespark.mapper.PostProcessor;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 import org.viablespark.mapper.converter.Converter;
@@ -36,35 +37,33 @@ public class SimpleFileMapperConfiguration extends AbstractMapperConfiguration {
     
 
     public MappingInformation getMappingInformation() {
-        try {
-            if (mappingInformation != null) {
-                return mappingInformation;
+        if (mappingInformation != null) {
+            return mappingInformation;
+        }
+        mappingInformation = new MappingInformation();
+
+        try(InputStream resourceAsStream = this.getClass().getResourceAsStream(this.configurationFile)) {
+            assert resourceAsStream != null;
+            try(BufferedReader reader = new BufferedReader(new InputStreamReader(resourceAsStream)) ) {
+
+                String line;
+                List<MappingData> list = new ArrayList<>();
+                while( (line = reader.readLine()) != null  ) {
+                    if( line.length() == 0 )
+                        continue;
+
+                    if( line.contains("[") ){
+                        handleCollection(reader,line,list);
+                    }else if( line.contains("post-process")){
+                        handlePostProcessors(reader, line, mappingInformation);
+                    }else
+                        list.add(getMappingData(line));
+                }
+                mappingInformation.setMappingData(list);
             }
-
-            mappingInformation = new MappingInformation();
-            InputStream stream =this.getClass().getResourceAsStream(configurationFile);
-            BufferedReader reader = new BufferedReader(new InputStreamReader( stream ));
-
-            String line = "";            
-            List<MappingData> list = new ArrayList<MappingData>();
-            while( (line = reader.readLine()) != null  ) {
-                if( line.length() == 0 )
-                    continue;
-                
-                if( line.contains("[") ){
-                    handleCollection(reader,line,list);
-                }else if( line.contains("post-process")){
-                    handlePostProcessors(reader, line, mappingInformation);
-                }else
-                    list.add(getMappingData(line));
-            }
-            mappingInformation.setMappingData(list);
-            reader.close();
-
         } catch (Exception ex) {
             Lg.log(this,Lg.ERROR, "Error", ex);
         }
-
         return mappingInformation;
     }
 
@@ -74,7 +73,7 @@ public class SimpleFileMapperConfiguration extends AbstractMapperConfiguration {
         data.setCollectionObjectType(resolveKey("type=\"","\"",line));
         data.setSourceExpression(resolveKey("source=\"", "\"", line));
         data.setTargetExpression(resolveKey("target=\"", "\"", line));
-         List<MappingData> coll = new ArrayList<MappingData>();
+         List<MappingData> coll = new ArrayList<>();
          while( (line = reader.readLine()) != null && !line.contains("]") ) {
             coll.add(getMappingData(line));
          }
@@ -82,14 +81,14 @@ public class SimpleFileMapperConfiguration extends AbstractMapperConfiguration {
          list.add(data);
     }
 
-    private void handlePostProcessors(BufferedReader reader,String line,MappingInformation info ) throws Exception{        
+    private void handlePostProcessors(BufferedReader reader,String line,MappingInformation info ) {
          String processClass = resolveKey("process=\"","\"",line);
-         PostProcessor postProcess = (PostProcessor)(Class.forName(processClass)).newInstance();
+         PostProcessor postProcess = (PostProcessor)(getInstance(processClass));
          info.addPostProcess(postProcess);
     }
 
 
-    private MappingData getMappingData(String conf) throws Exception {
+    private MappingData getMappingData(String conf) {
         MappingData data = new MappingData();
         data.setSourceExpression(resolveKey("source=\"", "\"", conf));
         data.setTargetExpression(resolveKey("target=\"", "\"", conf));

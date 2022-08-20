@@ -156,8 +156,10 @@ public class BeanMapperImpl implements BeanMapper {
 
         } catch (Exception e) {
             Lg.log(this, Lg.ERROR, 
-                    "Bean Mapper Failed to map " + mappingData.getSourceExpression() + " to " + mappingData.getTargetExpression() + " Exception:" + e.getMessage(),
-                    e);
+                    "Mapper Failed to map [" + mappingData.getSourceExpression()
+                            + "] to [" + mappingData.getTargetExpression()
+                            + "] Exception: "
+                            + e.getMessage(),e);
         }
     }
 
