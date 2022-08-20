@@ -15,6 +15,8 @@
  */
 package org.viablespark.example.ui;
 
+import org.viablespark.mapper.util.Lg;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +38,7 @@ public class ReflectionUtil {
 
     }
 
-    public static void invokeSetter(Object setterOwner, Method method, Object value) throws Exception {
+    public static void invokeSetter(Object setterOwner, Method method, Object value) {
         try {
 
             method.invoke(setterOwner, value);
@@ -48,15 +50,16 @@ public class ReflectionUtil {
     }
 
     public static List<Method> getGetterMethods(Class<?> clazz) {
-        List<Method> allMethods = new ArrayList<Method>();
+        List<Method> allMethods = new ArrayList<>();
         do {
             try {
                 allMethods.addAll(Arrays.asList(clazz.getDeclaredMethods()));
             } catch (Exception e) {
+                Lg.log(ReflectionUtil.class, Lg.WARN, "Error ", e);
             }
-        } while ((clazz = clazz.getSuperclass()).getPackage().getName().startsWith("net.freedom.gj.example"));
+        } while ((clazz = clazz.getSuperclass()).getPackage().getName().startsWith("org.viablespark.example"));
 
-        List<Method> getterMethods = new ArrayList<Method>();
+        List<Method> getterMethods = new ArrayList<>();
         for (Method m : allMethods) {
             if (m.getName().startsWith("get")) {
                 getterMethods.add(m);

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.viablespark.mapper.MappingData;
 import org.viablespark.mapper.MappingInformation;
 import org.viablespark.mapper.PostProcessor;
@@ -29,32 +30,29 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- *
  * @author Martin Jamszolik
  */
 public class SimpleXmlMapperConfiguration extends AbstractMapperConfiguration {
 
-   
+
     @Override
     public MappingInformation getMappingInformation() {
-        try {
-            if (mappingInformation != null) {
-                return mappingInformation;
-            }
-            mappingInformation = new MappingInformation();
-            InputStream stream = this.getClass().getResourceAsStream(configurationFile);            
-            
+
+        if (mappingInformation != null) {
+            return mappingInformation;
+        }
+        mappingInformation = new MappingInformation();
+        try (InputStream stream = this.getClass().getResourceAsStream(configurationFile)) {
+
             SAXParserFactory spf = SAXParserFactory.newInstance();
             SAXParser sp = spf.newSAXParser();
             sp.parse(stream, new XmlDefaultHandler(mappingInformation));
-            stream.close();
         } catch (Exception ex) {
             Lg.log(this, Lg.ERROR, "Error", ex);
         }
         return mappingInformation;
     }
 
-    
 
     class XmlDefaultHandler extends DefaultHandler {
 
@@ -68,17 +66,18 @@ public class SimpleXmlMapperConfiguration extends AbstractMapperConfiguration {
         }
 
         @Override
-        public void endElement(String uri, String localName, String qName) throws SAXException {
-           if( qName.equals("collection") ){
-               mappingInfo.getMappingData().add(collectionData);
-               collectionData = null;
-           }else if( qName.equals("post-processors") ){
-               mappingInfo.setPostProcessors(procList);
-               procList = null;
-           }
+        public void endElement(String uri, String localName, String qName) {
+            if (qName.equals("collection")) {
+                mappingInfo.getMappingData().add(collectionData);
+                collectionData = null;
+            } else if (qName.equals("post-processors")) {
+                mappingInfo.setPostProcessors(procList);
+                procList = null;
+            }
         }
+
         @Override
-        public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+        public void startElement(String uri, String localName, String qName, Attributes attributes) {
             switch (qName) {
                 case "bind":
                     MappingData d = new MappingData();
@@ -98,11 +97,11 @@ public class SimpleXmlMapperConfiguration extends AbstractMapperConfiguration {
                     collectionData.setSourceExpression(attributes.getValue("source"));
                     collectionData.setTargetExpression(attributes.getValue("target"));
                     collectionData.setCollectionObjectType(attributes.getValue("type"));
-                    collectionData.setCollectionMappingData(new ArrayList<MappingData>());
+                    collectionData.setCollectionMappingData(new ArrayList<>());
 
                     break;
                 case "post-processors":
-                    procList = new ArrayList<PostProcessor>();
+                    procList = new ArrayList<>();
 
                     break;
                 case "processor":
@@ -112,16 +111,5 @@ public class SimpleXmlMapperConfiguration extends AbstractMapperConfiguration {
                     break;
             }
         }
-
-        private Object getInstance(String impl){
-            try {
-                return (Class.forName(impl)).newInstance();
-            } catch (Exception ex) {
-                Lg.log(Lg.ERROR,"Failed to create new Instance of {0}. Error: {1}",impl,ex.getMessage() );
-                return null;
-            }
-        }
     }
-
-    
 }

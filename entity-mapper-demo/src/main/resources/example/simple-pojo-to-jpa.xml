@@ -6,16 +6,16 @@
     <bind source="companyid"  target="userid.companyid"/>
     <bind source="agencyId"  target="userid.insagencyid"/>
     <bind source="lastName"  target="userid.lastname"/>
-    <bind source="lastName"  target="userid.ulastname" converter="net.freedom.gj.beans.converter.ToUpperCaseConverter"/>
+    <bind source="lastName"  target="userid.ulastname" converter="org.viablespark.mapper.converter.ToUpperCaseConverter"/>
     <bind source="firstName"  target="userid.firstname"/>
-    <bind source="firstName"  target="userid.ufirstname" converter="net.freedom.gj.beans.converter.ToUpperCaseConverter"/>
+    <bind source="firstName"  target="userid.ufirstname" converter="org.viablespark.mapper.converter.ToUpperCaseConverter"/>
     <bind source="middle"  target="userid.middlename"/>
     <bind source="suffix"  target="userid.suffixname"/>
     <bind source="email"  target="userid.email"/>
     <bind source="status"  target="userid.status"/>
     <bind source="password"  target="userid.pwd"/>
     <bind source="password"  target="userid.changepwd"/>
-    <bind source="active"  target="isactive"  converter="net.freedom.gj.example.converter.BooleanTo01Converter"/>        
+    <bind source="active"  target="isactive"  converter="org.viablespark.example.converter.BooleanTo01Converter"/>
     <bind source="updatedby"  target="updatedby"/>
     <bind source="updateddate"  target="updateddate"/>
     <bind source="updatedby"  target="userid.updatedby"/>
@@ -35,7 +35,7 @@
     <bind source="address.updatedDate"  target="address.updateddate"/>
 
     <!-- Ability to map collection of objects -->
-    <collection  source="groups"  target="userid.groups" type="net.freedom.gj.example.jpa.GroupEntity">
+    <collection  source="groups"  target="userid.groups" type="org.viablespark.example.jpa.GroupEntity">
         <bind source="name" target="groupName" />
     </collection>
 </mapping>

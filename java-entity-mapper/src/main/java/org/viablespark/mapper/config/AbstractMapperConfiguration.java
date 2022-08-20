@@ -15,9 +15,13 @@
  */
 package org.viablespark.mapper.config;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.viablespark.mapper.converter.Converter;
 import org.viablespark.criteria.BeanCriteria;
 import org.viablespark.criteria.CriteriaBuilder;
@@ -25,9 +29,9 @@ import org.viablespark.criteria.PropertyBuilder;
 import org.viablespark.criteria.PropertyCriteria;
 import org.viablespark.mapper.MappingInformation;
 import org.viablespark.criteria.matcher.InstanceOfMatcher;
+import org.viablespark.mapper.util.Lg;
 
 /**
- *
  * @author Martin Jamszolik
  */
 public abstract class AbstractMapperConfiguration implements MapperConfiguration, BeanCriteria {
@@ -58,8 +62,16 @@ public abstract class AbstractMapperConfiguration implements MapperConfiguration
     public Class<?> getTargetType() {
         return targetType;
     }
-    
-    
+
+
+    protected Object getInstance(String impl) {
+        try {
+            return Class.forName(impl).getConstructor().newInstance();
+        } catch (Exception ex) {
+            Lg.log(this, Lg.WARN, "Class " + impl + " not found: ", ex);
+            return null;
+        }
+    }
 
     protected Converter getConverter(String className) {
         if (className == null) {
@@ -69,13 +81,10 @@ public abstract class AbstractMapperConfiguration implements MapperConfiguration
         if (converters.containsKey(className)) {
             return converters.get(className);
         }
-        try {
-            var converter = Class.forName(className).getConstructor().newInstance();
-            converters.put(className, (Converter)converter);
-            return converters.get(className);
-        } catch (Exception ex) {
-            return null;
-        }
+
+        var converter = getInstance(className);
+        converters.put(className, (Converter) converter);
+        return converters.get(className);
     }
 
     @Override
