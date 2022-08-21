@@ -4,19 +4,19 @@ package net.freedom.gj.mapper.config
 import scala.collection.mutable
 
 trait MapperConfigTrait {
-  val converters = new mutable.HashMap[String, Converter]
+  val converters = new mutable.HashMap[String, Converter[_]]
 
   val sourceType:Class[_]
   val targetType:Class[_]
 
   def getMappingInformation: MappingInformation
 
-  protected def getConverter(name: String): Option[Converter] = {
+  protected def getConverter(name: String): Option[Converter[_]] = {
     if (name == null || name.trim.isEmpty) {
       return None
     }
     Some(converters.getOrElseUpdate(name,
-          newInstance[Converter](name, classOf[Converter]))
+          newInstance[Converter[_]](name, classOf[Converter[_]]))
     )
   }
 

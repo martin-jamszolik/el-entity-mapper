@@ -1,20 +1,21 @@
 
 package net.freedom.gj.mapper.config
 
+import scala.collection.mutable
 import scala.collection.mutable._
 
-  class MappingInformation(mappingData: Seq[MappingData],
-                         postProcessors: Seq[PostProcessor]) {
-  def getData = mappingData;
+class MappingInformation(mappingData: mutable.Seq[MappingData],
+                         postProcessors: mutable.Seq[PostProcessor]) {
+  def getData: mutable.Seq[MappingData] = mappingData
 
-  def getProcessors = postProcessors;
+  def getProcessors: mutable.Seq[PostProcessor] = postProcessors
 }
 
 
 case class MappingData(source: String,
                        target: String,
-                       converter: Option[Converter] = None,
-                       collection: Seq[MappingData] = ListBuffer.empty[MappingData],
+                       converter: Option[Converter[_]] = None,
+                       collection: mutable.Seq[MappingData] = ListBuffer.empty[MappingData],
                        objType: String = null) {
 }
 
