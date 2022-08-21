@@ -1,16 +1,22 @@
 package net.freedom.gj.mapper.config
 
 
-trait Converter {
-  def convert(subject: AnyRef): AnyRef
+trait Converter[T] {
+  def convert(subject: AnyRef): T
 }
 
-class ToStringConverter extends Converter {
+class NoOpsConverter extends Converter[AnyRef] {
+  def convert(subject:AnyRef ): AnyRef = subject
+}
 
-  def convert(source: AnyRef): AnyRef = {
-    if (source == null) {
-      return new String("")
+object NoOpsConverter {
+  val instance = new NoOpsConverter()
+}
+class ToStringConverter extends Converter[String] {
+  def convert(subject: AnyRef): String = {
+    subject match {
+      case null => ""
+      case _ => subject.toString
     }
-    source.toString
   }
 }

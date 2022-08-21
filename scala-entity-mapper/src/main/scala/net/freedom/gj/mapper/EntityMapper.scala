@@ -2,7 +2,7 @@ package net.freedom.gj.mapper
 
 import net.freedom.gj.mapper.config._
 
-import javax.el._
+import jakarta.el._
 
 trait EntityMapper {
   def map[T](source: AnyRef, target: T): T
@@ -36,22 +36,20 @@ class EntityMapperImpl(val configFactory: ConfigFactoryTrait[MapperConfigTrait, 
 
   private def mapData(item: MappingData, elContext: ELContext, srcClass: Class[_]): Unit = {
     try {
-      var value = expr.createValueExpression(elContext, "${source." + item.source + "}",
-        classOf[AnyRef]).getValue(elContext)
+      val sourceExpression = expr.createValueExpression(elContext, "${source." + item.source + "}",classOf[AnyRef])
+      val sourceValue = sourceExpression.getValue(elContext)
 
       // Create target if it is null
-      createTargetObject(item, elContext, value)
+      createTargetObject(item, elContext, sourceValue)
 
       // If the target is Array or Collection, loop through the collection
       if (item.collection.nonEmpty) {
-        mapCollection(item, elContext, value)
+        mapCollection(item, elContext, sourceValue)
         return
       }
 
       // Convert source value if a converter is specified
-      if (item.converter.nonEmpty) {
-        value = item.converter.get.convert(value)
-      }
+      val value = item.converter.getOrElse(NoOpsConverter.instance).convert(sourceValue)
 
       //Copy source value to target
       expr.createValueExpression(elContext, "${target." + item.target + "}", value.getClass)

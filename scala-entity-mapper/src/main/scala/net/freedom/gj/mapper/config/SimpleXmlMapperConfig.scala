@@ -14,7 +14,7 @@ class SimpleXmlMapperConfig
 
   private def parse(): MappingInformation = {
     val resource = classOf[SimpleXmlMapperConfig].getResourceAsStream(file);
-    val parser = ConstructingParser.fromSource(Source.fromInputStream(resource), false);
+    val parser = ConstructingParser.fromSource(Source.fromInputStream(resource), preserveWS = false);
     val doc = parser.document()
 
     var list = new ListBuffer[MappingData]();
