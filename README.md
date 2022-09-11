@@ -89,4 +89,4 @@ All of our projects are maven based and tested to work out of the box when build
 
 ## Would Scala implementation be more elegant?
 
-Have been working on a scala implementation of this feature as well `scala-entity-mapper`.
+Have been working on a scala implementation of this feature as well [scala-entity-mapper](https://github.com/martin-jamszolik/scala-entity-mapper).
